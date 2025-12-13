@@ -1,9 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.NextStep" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Theme utama aplikasi -->
+    <style name="Theme.NextStep" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- warna dsb di sini -->
     </style>
 
-    <style name="Theme.NextStep" parent="Base.Theme.NextStep" />
+    <!-- Theme khusus SplashScreen -->
+    <style name="Theme.NextStep.Splash" parent="Theme.SplashScreen">
+        <!-- Background splash -->
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+
+        <!-- Icon/logo yang ditampilkan di tengah -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_splash</item>
+
+        <!-- Durasi animasi icon (ms) -->
+        <item name="windowSplashScreenAnimationDuration">400</item>
+
+        <!-- Theme setelah splash hilang -->
+        <item name="postSplashScreenTheme">@style/Theme.NextStep</item>
+    </style>
+
 </resources>
