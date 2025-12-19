@@ -25,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // ====== ANIMASI KELUAR SPLASH (TRANSISI MASUK APP) ======
+        //App transision
         splashScreen.setOnExitAnimationListener(splashScreenView -> {
-            // Contoh: fade out logo + background
             ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
                     splashScreenView.getView(),
                     View.ALPHA,
@@ -40,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
             fadeOut.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    // Hapus view splash setelah animasi selesai
+                    // delete splash after animation
                     splashScreenView.remove();
                 }
             });
 
             fadeOut.start();
         });
-        // =======================================================
+
 
         btnNext = findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {

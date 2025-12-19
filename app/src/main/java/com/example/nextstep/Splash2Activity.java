@@ -33,9 +33,9 @@ public class Splash2Activity extends AppCompatActivity {
         btnNext2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(Splash2Activity.this, Splash3Activity.class);
-//                startActivity(intent);
-//                finish();
+               Intent intent = new Intent(Splash2Activity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
