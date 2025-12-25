@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NextStep">
         <activity
-            android:name=".Splash2Activity" />
-        <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:name=".ProfilePage"
+            android:exported="false" />
+        <activity android:name=".Splash2Activity" />
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".RegisterActivity" />
-
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
