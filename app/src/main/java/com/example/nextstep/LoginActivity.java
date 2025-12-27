@@ -43,7 +43,10 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             Toast.makeText(this, "Login clicked", Toast.LENGTH_SHORT).show();
-            // validasi login / pindah ke Home
+
+            //Temporarily move immediately to profile
+            Intent moveToProfile = new Intent(this, ProfilePage.class);
+            startActivity(moveToProfile);
         });
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
