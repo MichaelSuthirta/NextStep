@@ -66,15 +66,8 @@
         android:textSize="24dp"
         android:fontFamily=""
         android:lineSpacingExtra="2dp"
-<<<<<<< HEAD
         android:text="Selamat Datang di aplikasi kami"
-=======
-        android:text="Mari cari koneksi, pengalaman serta kondisi lapangan dengan NextStep! Mulai harimu dengan aplikasi ini."
->>>>>>> 248843144b44deff60cc0bef7edf2c0f1b45f277
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imgLogo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <!-- Indikator halaman (dot) -->
     <LinearLayout
