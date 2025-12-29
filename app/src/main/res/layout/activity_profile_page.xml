@@ -24,8 +24,8 @@
             />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginStart="10dp"
             android:id="@+id/profilePic"
+            android:layout_marginStart="10dp"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/profile_placeholder"
@@ -36,6 +36,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/profileName"
         android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
         />
 
     <TextView
+        android:id="@+id/profileRole"
         android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,6 +59,18 @@
         android:background="@android:color/darker_gray"
         />
 
-    
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="scrollable"
+        app:tabGravity="fill"
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/profileTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>
