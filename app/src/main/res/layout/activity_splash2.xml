@@ -64,7 +64,7 @@
         android:textSize="13sp"
         android:lineSpacingExtra="2dp"
         android:gravity="center"
-        android:text="Di halaman ini kamu bisa menjelaskan fitur lain dari aplikasi, misalnya bagaimana pengguna mengatur tujuan, memantau progres, dan mendapatkan insight."
+        android:text="Jadi Aplikasi kita ini bertujuan untuk mencari lapangan pekerjaan tetapi dengan UI yang gampang diakses oleh user"
         app:layout_constraintTop_toBottomOf="@id/imgLogo2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -125,11 +125,6 @@
             android:background="@drawable/dot_inactive"
             android:layout_margin="4dp"/>
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:background="@drawable/dot_inactive"
-            android:layout_margin="4dp"/>
 
     </LinearLayout>
 

@@ -277,11 +277,6 @@
                 android:background="@drawable/dot_active"
                 android:layout_margin="4dp"/>
 
-            <View
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="@drawable/dot_inactive"
-                android:layout_margin="4dp"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
