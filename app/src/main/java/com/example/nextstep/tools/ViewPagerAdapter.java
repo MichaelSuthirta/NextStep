@@ -5,16 +5,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.nextstep.R;
 import com.example.nextstep.tab_pages.AchievementFragment;
 import com.example.nextstep.tab_pages.OtherSectionFragment;
 import com.example.nextstep.tab_pages.ProfileFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    private String[] iconList = {
-        "@drawable/profile_tab_icon.png",
-        "@drawable/achievement_tab_icon.png",
-        "@drawable/plus_tab_icon.png"
+    private int[] iconList = {
+            R.drawable.profile_tab_icon,
+            R.drawable.achievement_tab_icon,
+            R.drawable.plus_tab_icon
     };
 
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -41,7 +42,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         return iconList.length;
     }
 
-    public String getIconPath(int index){
+    public int getIcon(int index){
         return iconList[index];
     }
 }

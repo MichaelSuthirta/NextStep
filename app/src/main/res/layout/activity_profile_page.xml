@@ -59,6 +59,8 @@
         android:background="@android:color/darker_gray"
         />
 
+    <!--    Tabs    -->
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
