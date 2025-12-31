@@ -49,6 +49,7 @@ public class UserDAO {
         Cursor cursor = db.query(TABLE_NAME, null, COL_EMAIL + "=?",
                 new String[]{email}, null, null, null, null);
 
+        cursor.moveToFirst();
         User user;
         try{
             if(cursor.getInt(cursor.getColumnIndex(COL_ID)) > 0){

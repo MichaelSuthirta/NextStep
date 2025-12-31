@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class Post {
     private String postId, userId, content, imgPath;
-    private LocalDateTime postDate;
+    private String postDate;
 
-    public Post(String postId, String userId, String content, String imgPath, LocalDateTime postDate) {
+    public Post(String postId, String userId, String content, String imgPath, String postDate) {
         this.postId = postId;
         this.userId = userId;
         this.content = content;
@@ -46,11 +46,11 @@ public class Post {
         this.imgPath = imgPath;
     }
 
-    public LocalDateTime getPostDate() {
+    public String getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(LocalDateTime postDate) {
+    public void setPostDate(String postDate) {
         this.postDate = postDate;
     }
 }
