@@ -1,0 +1,27 @@
+package com.example.nextstep.data_access;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+public class SQLiteConnector extends SQLiteOpenHelper {
+    private static final String DB_NAME = "nextstep_db";
+    private static final int DB_VER = 4;
+
+    public SQLiteConnector(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DB_NAME, null, DB_VER);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(UserDAO.CREATE_TABLE);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + UserDAO.TABLE_NAME);
+        onCreate(db);
+    }
+}
