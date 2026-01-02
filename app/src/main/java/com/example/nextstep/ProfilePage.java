@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.nextstep.data_access.SQLiteConnector;
+import com.example.nextstep.data_access.UserDAO;
+import com.example.nextstep.models.User;
 import com.example.nextstep.tools.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -22,6 +25,8 @@ public class ProfilePage extends AppCompatActivity {
     ViewPager2 profileTabs;
     ViewPagerAdapter adapter;
 
+    UserDAO userDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,8 @@ public class ProfilePage extends AppCompatActivity {
 
         profilePic = findViewById(R.id.profilePic);
         banner = findViewById(R.id.banner);
+
+        userDAO = new UserDAO(SQLiteConnector.getInstance(this));
 
         tabLayout = findViewById(R.id.tabLayout);
         profileTabs = findViewById(R.id.profileTab);
@@ -50,5 +57,9 @@ public class ProfilePage extends AppCompatActivity {
                 }
         ).attach();
 
+        //Gets the extra data put in the intent moving to this page, then finds the data in database
+        User activeUser = userDAO.getUserByUsername((this.getIntent()).getStringExtra("username"));
+
+        tvName.setText(activeUser.getUsername());
     }
 }

@@ -55,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             Intent moveToProfile = new Intent(this, ProfilePage.class);
+            moveToProfile.putExtra("username", u);
+
             startActivity(moveToProfile);
         });
 
@@ -75,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 
         });
-
 
     }
 }
