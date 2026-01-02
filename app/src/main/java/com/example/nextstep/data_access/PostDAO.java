@@ -24,9 +24,9 @@ public class PostDAO {
             " (" + COL_POSTID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_USERID + " INTEGER, " +
             COL_CONTENT + " TEXT, " +
-            COL_DATETIME + " TIMESTAMP, " +
+            COL_DATETIME + " TEXT, " +
             COL_IMG + " TEXT, " +
-            "FOREIGN KEY (" + COL_USERID + " REFERENCES " + UserDAO.TABLE_NAME + "("
+            "FOREIGN KEY (" + COL_USERID + ") REFERENCES " + UserDAO.TABLE_NAME + "("
             + COL_USERID + ")" +
             ")";
 

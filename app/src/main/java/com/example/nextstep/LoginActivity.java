@@ -11,12 +11,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nextstep.data_access.SQLiteConnector;
+import com.example.nextstep.data_access.UserDAO;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin,btnPrev;
     ImageButton btnGoogle, btnFacebook, btnLinkedin;
     TextView tvRegister;
+
+    UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +38,22 @@ public class LoginActivity extends AppCompatActivity {
         btnLinkedin = findViewById(R.id.btnLinkedin);
         tvRegister = findViewById(R.id.tvRegister);
 
+        userDAO = new UserDAO(SQLiteConnector.getInstance(this));
+
         btnLogin.setOnClickListener(v -> {
             String u = etUsername.getText().toString().trim();
             String p = etPassword.getText().toString().trim();
 
-            if (u.isEmpty() || p.isEmpty()) {
+            if (u.isBlank() || p.isBlank()) {
                 Toast.makeText(this, "Username & Password wajib diisi", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Toast.makeText(this, "Login clicked", Toast.LENGTH_SHORT).show();
+            else if(userDAO.getUserByUsername(u) == null){
+                Toast.makeText(this, "User is not found", Toast.LENGTH_LONG).show();
+                return;
+            }
 
-            //Temporarily move immediately to profile
             Intent moveToProfile = new Intent(this, ProfilePage.class);
             startActivity(moveToProfile);
         });

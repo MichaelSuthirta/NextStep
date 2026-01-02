@@ -10,11 +10,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nextstep.data_access.SQLiteConnector;
+import com.example.nextstep.data_access.UserDAO;
+import com.example.nextstep.models.User;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private ImageButton btnBack;
     private Button btnRegister;
     private EditText etUsername, etPhone, etEmail, etPassword, etConfirmPassword;
+
+
+    private UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+
+        userDAO = new UserDAO(SQLiteConnector.getInstance(this));
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +65,14 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(this, "Register clicked", Toast.LENGTH_SHORT).show();
+            long insertRes = userDAO.addUser(new User(u, ph, em, p1));
+
+            if(insertRes == -1){
+                Toast.makeText(this, "An error occured", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show();
 
         });
     }

@@ -10,8 +10,17 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     private static final String DB_NAME = "nextstep_db";
     private static final int DB_VER = 4;
 
+    private static SQLiteConnector instance;
+
     public SQLiteConnector(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, null, DB_VER);
+    }
+
+    public static SQLiteConnector getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteConnector(context, null, null, 4);
+        }
+        return instance;
     }
 
     @Override
