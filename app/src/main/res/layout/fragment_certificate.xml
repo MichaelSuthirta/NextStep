@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tab_pages.ProfileFragment"
+    tools:context=".tab_pages.CertificateFragment"
     android:padding="10dp"
     >
 
     <!--    TODO: Create linear layout horizontal for the row   -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="About Me"
+        android:layout_height="match_parent"
+        android:text="Certifications"
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="24sp"

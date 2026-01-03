@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.nextstep.R;
-import com.example.nextstep.tab_pages.AchievementFragment;
+import com.example.nextstep.tab_pages.CertificateFragment;
 import com.example.nextstep.tab_pages.OtherSectionFragment;
 import com.example.nextstep.tab_pages.ProfileFragment;
 
@@ -29,7 +29,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new ProfileFragment();
             case 1:
-                return new AchievementFragment();
+                return new CertificateFragment();
             case 2:
                 return new OtherSectionFragment();
             default:

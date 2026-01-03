@@ -13,14 +13,15 @@ import android.view.ViewGroup;
 
 import com.example.nextstep.R;
 
-public class AchievementFragment extends Fragment {
+public class CertificateFragment extends Fragment {
 
-    public AchievementFragment() {}
+    public CertificateFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_certificate, container, false);
+        return view;
     }
 
     @Override
