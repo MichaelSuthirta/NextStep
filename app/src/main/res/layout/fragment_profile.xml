@@ -4,17 +4,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".tab_pages.ProfileFragment"
+    android:orientation="vertical"
     android:padding="10dp"
     >
 
-    <!--    TODO: Create linear layout horizontal for the row   -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About Me"
-        android:fontFamily="@font/poppins"
-        android:textColor="@color/black"
-        android:textSize="24sp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/aboutMeTitle"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="About Me"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            />
+
+        <ImageView
+            android:id="@+id/abtMeEditBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pencil_icon"
+            android:layout_toEndOf="@id/aboutMeTitle"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/aboutMeDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write descriptions here"
         />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/expTitle"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Experiences"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                />
+
+            <ImageView
+                android:id="@+id/expEditBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pencil_icon"
+                android:layout_toEndOf="@id/expTitle"
+                />
+        </RelativeLayout>
 
 </LinearLayout>

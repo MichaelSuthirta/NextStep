@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nextstep.ProfilePage;
 import com.example.nextstep.R;
@@ -17,10 +20,22 @@ import com.example.nextstep.R;
 public class ProfileFragment extends Fragment {
     public ProfileFragment(){};
 
+    TextView abtMe;
+
+    ImageView abtMeEdit;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        abtMeEdit = view.findViewById(R.id.abtMeEditBtn);
+
+        abtMeEdit.setOnClickListener(
+                v -> {
+                    Toast.makeText(this.getContext(), "About me edit clicked", Toast.LENGTH_LONG).show();
+                }
+        );
+
         return view;
     }
 
@@ -33,4 +48,6 @@ public class ProfileFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
 }
