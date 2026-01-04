@@ -22,17 +22,31 @@ public class ProfileFragment extends Fragment {
 
     TextView abtMe;
 
-    ImageView abtMeEdit;
+    ImageView abtMeEdit, addExp, expEdit;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         abtMeEdit = view.findViewById(R.id.abtMeEditBtn);
+        addExp = view.findViewById(R.id.addExp);
+        expEdit = view.findViewById(R.id.expEditBtn);
 
         abtMeEdit.setOnClickListener(
                 v -> {
                     Toast.makeText(this.getContext(), "About me edit clicked", Toast.LENGTH_LONG).show();
+                }
+        );
+
+        addExp.setOnClickListener(
+                v -> {
+                    Toast.makeText(this.getContext(), "Add experience clicked", Toast.LENGTH_LONG).show();
+                }
+        );
+
+        expEdit.setOnClickListener(
+                v -> {
+                    Toast.makeText(this.getContext(), "Edit Experience clicked", Toast.LENGTH_LONG).show();
                 }
         );
 
