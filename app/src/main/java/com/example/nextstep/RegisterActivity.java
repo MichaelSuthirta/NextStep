@@ -2,10 +2,15 @@ package com.example.nextstep;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +21,10 @@ import com.example.nextstep.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private ImageButton btnBack;
     private Button btnRegister;
-    private EditText etUsername, etPhone, etEmail, etPassword, etConfirmPassword;
+    private EditText etUsername, etEmail, etPassword;
+    private ImageButton btnGoogle, btnFacebook, btnLinkedin;
+    private TextView tvLoginHere;
 
 
     private UserDAO userDAO;
@@ -28,44 +34,54 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        btnBack = findViewById(R.id.btnBack);
         btnRegister = findViewById(R.id.btnRegister);
 
         etUsername = findViewById(R.id.etUsername);
-        etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
+
+        btnGoogle = findViewById(R.id.btnGoogle);
+        btnFacebook = findViewById(R.id.btnFacebook);
+        btnLinkedin = findViewById(R.id.btnLinkedin);
+        tvLoginHere = findViewById(R.id.tvLoginHere);
 
         userDAO = new UserDAO(SQLiteConnector.getInstance(this));
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+        // Make the "Login here" part look like a link
+        try {
+            String full = "Already have an account? Login here";
+            SpannableString ss = new SpannableString(full);
+            int start = full.indexOf("Login here");
+            if (start >= 0) {
+                int end = start + "Login here".length();
+                ss.setSpan(new ForegroundColorSpan(getColor(R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
+            tvLoginHere.setText(ss);
+        } catch (Exception ignored) {}
+
+        tvLoginHere.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         });
+
+        btnGoogle.setOnClickListener(v -> Toast.makeText(this, "Google Login", Toast.LENGTH_SHORT).show());
+        btnFacebook.setOnClickListener(v -> Toast.makeText(this, "Facebook Login", Toast.LENGTH_SHORT).show());
+        btnLinkedin.setOnClickListener(v -> Toast.makeText(this, "LinkedIn Login", Toast.LENGTH_SHORT).show());
 
         btnRegister.setOnClickListener(v -> {
             String u = etUsername.getText().toString().trim();
-            String ph = etPhone.getText().toString().trim();
             String em = etEmail.getText().toString().trim();
-            String p1 = etPassword.getText().toString().trim();
-            String p2 = etConfirmPassword.getText().toString().trim();
 
-            if (u.isEmpty() || ph.isEmpty() || em.isEmpty() || p1.isEmpty() || p2.isEmpty()) {
+            String p1 = etPassword.getText().toString().trim();
+
+            if (u.isEmpty() || em.isEmpty() || p1.isEmpty()) {
                 Toast.makeText(this, "Semua field wajib diisi", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (!p1.equals(p2)) {
-                Toast.makeText(this, "Password tidak sama", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            long insertRes = userDAO.addUser(new User(u, ph, em, p1));
+            // Phone number is optional in this UI; store empty string for DB column.
+            long insertRes = userDAO.addUser(new User(u, "", em, p1));
 
             if(insertRes == -1){
                 Toast.makeText(this, "An error occured", Toast.LENGTH_LONG).show();
@@ -73,7 +89,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show();
-
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         });
     }
 }

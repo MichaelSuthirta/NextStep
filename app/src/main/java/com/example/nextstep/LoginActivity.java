@@ -2,6 +2,10 @@ package com.example.nextstep;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +21,7 @@ import com.example.nextstep.data_access.UserDAO;
 public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
-    Button btnLogin,btnPrev;
+    Button btnLogin;
     ImageButton btnGoogle, btnFacebook, btnLinkedin;
     TextView tvRegister;
 
@@ -31,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        btnPrev  = findViewById(R.id.btnPrev);
 
         btnGoogle = findViewById(R.id.btnGoogle);
         btnFacebook = findViewById(R.id.btnFacebook);
@@ -39,6 +42,19 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.tvRegister);
 
         userDAO = new UserDAO(SQLiteConnector.getInstance(this));
+
+        // Make the "Register here" part look like a link
+        try {
+            String full = "New to our app? Register here";
+            SpannableString ss = new SpannableString(full);
+            int start = full.indexOf("Register here");
+            if (start >= 0) {
+                int end = start + "Register here".length();
+                ss.setSpan(new ForegroundColorSpan(getColor(R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            tvRegister.setText(ss);
+        } catch (Exception ignored) {}
 
         btnLogin.setOnClickListener(v -> {
             String u = etUsername.getText().toString().trim();
@@ -58,15 +74,6 @@ public class LoginActivity extends AppCompatActivity {
             moveToProfile.putExtra("username", u);
 
             startActivity(moveToProfile);
-        });
-
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, Splash2Activity.class);
-                startActivity(intent);
-                finish();
-            }
         });
 
         btnGoogle.setOnClickListener(v -> Toast.makeText(this, "Google Login", Toast.LENGTH_SHORT).show());

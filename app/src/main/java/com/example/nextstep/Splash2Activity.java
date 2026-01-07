@@ -17,7 +17,7 @@ public class Splash2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_splash2);
 
         btnPrev  = findViewById(R.id.btnPrev);
-        btnNext2 = findViewById(R.id.btnNext2);
+        btnNext2 = findViewById(R.id.btnNext);
 
         // Kembali ke halaman 1
         btnPrev.setOnClickListener(new View.OnClickListener() {

@@ -1,130 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
-    <!-- Judul -->
-    <TextView
-        android:id="@+id/tvTitle2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Welcome To NextStep!"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:textColor="#333333"
-        android:gravity="center"
-        android:layout_marginTop="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Sub judul -->
-    <TextView
-        android:id="@+id/tvSubtitle2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Define Your Vision, Achieve Your Ambition"
-        android:textSize="12sp"
-        android:textColor="#777777"
-        android:gravity="center"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Logo -->
-    <ImageView
-        android:id="@+id/imgLogo2"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/logo"
-        android:adjustViewBounds="true"
-        android:contentDescription="App Logo"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitle2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Deskripsi -->
-    <TextView
-        android:id="@+id/tvDescription2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:textColor="#777777"
-        android:textSize="13sp"
-        android:lineSpacingExtra="2dp"
-        android:gravity="center"
-        android:text="Jadi Aplikasi kita ini bertujuan untuk mencari lapangan pekerjaan tetapi dengan UI yang gampang diakses oleh user"
-        app:layout_constraintTop_toBottomOf="@id/imgLogo2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Tombol kiri (misal: Back / Skip) -->
-    <Button
-        android:id="@+id/btnPrev"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="40dp"
-        android:text="Back"
-        android:textSize="12sp"
-        android:background="@drawable/btn_round"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <!-- Tombol kanan (Next) -->
-    <Button
-        android:id="@+id/btnNext2"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="40dp"
-        android:text="Next"
-        android:textSize="12sp"
-        android:background="@drawable/btn_round"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Dot indicator (dot kedua aktif) -->
+    <!-- Content -->
     <LinearLayout
-        android:id="@+id/llDots2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:background="@drawable/dot_inactive"
-            android:layout_margin="4dp"/>
+        <TextView
+            android:id="@+id/tvTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="Welcome To NextStep!"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:textColor="@color/text_primary" />
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:background="@drawable/dot_active"
-            android:layout_margin="4dp"/>
+        <TextView
+            android:id="@+id/tvSubtitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="Define Your Vision, Achieve Your Ambition"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary" />
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:background="@drawable/dot_inactive"
-            android:layout_margin="4dp"/>
+        <ImageView
+            android:id="@+id/imgIllustration2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img" />
+
+        <TextView
+            android:id="@+id/tvDescription2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="Mari kita buat akun terlebih dahulu\nuntuk mengenal dirimu lebih jauh!" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Bottom controls (back + dots + next button) -->
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="28dp">
+
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_pill_accent_small"
+            app:backgroundTint="@null"
+            android:text="Back"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+
+        <LinearLayout
+            android:id="@+id/llDots2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/dot_inactive" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/dot_active" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_pill_primary_small"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
