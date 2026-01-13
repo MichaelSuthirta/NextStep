@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddExperienceActivity"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Experience"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lets add more experience for you!"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_marginBottom="40dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Company Name"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/companyName"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Role"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/jobRole"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="25"
+            android:layout_height="wrap_content"
+            android:text="Start Date"
+            android:id="@+id/startDateTitle"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="25"
+            android:layout_height="wrap_content"
+            android:id="@+id/startDatePicker"
+            android:text="Start Date"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            android:onClick="chooseStartDate" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="25"
+            android:layout_height="wrap_content"
+            android:text="End Date"
+            android:id="@+id/endDateTitle"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="25"
+            android:layout_height="wrap_content"
+            android:id="@+id/endDatePicker"
+            android:text="End Date"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            android:onClick="chooseEndDate" />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentExpCheckbox"
+        android:buttonTint="@color/checkbox_checked"
+        android:text="I am currently attending this experience"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins"
+        android:textSize="12sp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Experience"
+        />
+
+</LinearLayout>

@@ -40,39 +40,45 @@
         android:text="Write descriptions here"
         />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dp"
-            >
+            android:fontFamily="@font/poppins"
+            android:text="Experiences"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            />
 
-            <TextView
-                android:id="@+id/expTitle"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="Experiences"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                />
+        <ImageView
+            android:id="@+id/addExp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_item_icon"
+            android:layout_toEndOf="@id/titleView"
+            android:layout_marginEnd="15dp"
+            />
 
-            <ImageView
-                android:id="@+id/addExp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add_item_icon"
-                android:layout_toEndOf="@id/expTitle"
-                android:layout_marginEnd="15dp"
-                />
+        <ImageView
+            android:id="@+id/expEditBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pencil_icon"
+            android:layout_toEndOf="@id/addExp"
+            />
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/expEditBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/pencil_icon"
-                android:layout_toEndOf="@id/addExp"
-                />
-        </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvExperience"
+        />
 
 </LinearLayout>

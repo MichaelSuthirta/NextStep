@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NextStep">
         <activity
+            android:name=".AddExperienceActivity"
+            android:exported="false" />
+        <activity
             android:name=".tab_pages.ProfileFragment"
             android:exported="false" />
         <activity
