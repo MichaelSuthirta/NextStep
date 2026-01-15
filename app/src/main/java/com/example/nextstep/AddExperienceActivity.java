@@ -3,8 +3,10 @@ package com.example.nextstep;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 
 import androidx.activity.EdgeToEdge;
@@ -24,6 +26,8 @@ public class AddExperienceActivity extends AppCompatActivity {
     private DatePickerDialog startDatePicker, endDatePicker;
     private Button startDateBtn, endDateBtn;
 
+    private CheckBox currentExpCheckbox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +41,32 @@ public class AddExperienceActivity extends AppCompatActivity {
 
         startDateBtn = findViewById(R.id.startDatePicker);
         endDateBtn = findViewById(R.id.endDatePicker);
+        currentExpCheckbox = findViewById(R.id.currentExpCheckbox);
+
         initMonthDict();
         startDatePicker = initDatePicker(startDateBtn);
         endDatePicker = initDatePicker(endDateBtn);
 
-        startDateBtn.setText(todayDate());
-        endDateBtn.setText(todayDate());
+        startDateBtn.setText(currentMonth());
+        startDateBtn.setOnClickListener(
+                v -> chooseStartDate()
+        );
+
+        endDateBtn.setOnClickListener(
+                v -> chooseEndDate()
+        );
+
+        endDateBtn.setText(currentMonth());
+
+        if(currentExpCheckbox.isChecked()){
+            endDateBtn.setEnabled(false);
+        }
+        else{
+            endDateBtn.setEnabled(true);
+        }
     }
 
-    private String todayDate(){
+    private String currentMonth(){
         Calendar calendar = Calendar.getInstance();
         return createDate(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
     }
@@ -76,11 +97,11 @@ public class AddExperienceActivity extends AppCompatActivity {
         return monthDictionary.get(month) + " " + year;
     }
 
-    public void chooseStartDate(View view) {
+    public void chooseStartDate() {
         startDatePicker.show();
     }
 
-    public void chooseEndDate(View view) {
+    public void chooseEndDate() {
         endDatePicker.show();
     }
 

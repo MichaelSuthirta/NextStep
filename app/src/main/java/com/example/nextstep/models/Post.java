@@ -1,17 +1,12 @@
 package com.example.nextstep.models;
 
-import java.time.LocalDateTime;
-
 public class Post {
-    private String postId, userId, content, imgPath;
-    private String postDate;
+    private String postId;
+    private String userId;
 
-    public Post(String postId, String userId, String content, String imgPath, String postDate) {
+    public Post(String postId, String userId) {
         this.postId = postId;
         this.userId = userId;
-        this.content = content;
-        this.imgPath = imgPath;
-        this.postDate = postDate;
     }
 
     public String getPostId() {
@@ -28,29 +23,5 @@ public class Post {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
-
-    public String getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(String postDate) {
-        this.postDate = postDate;
     }
 }

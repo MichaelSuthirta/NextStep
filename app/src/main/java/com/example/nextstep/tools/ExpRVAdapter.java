@@ -49,12 +49,10 @@ public class ExpRVAdapter extends RecyclerView.Adapter<ExpRVAdapter.ItemViewHold
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView expImage;
         TextView expTitle, expDuration, expLocation;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            expImage = itemView.findViewById(R.id.imgView);
             expTitle = itemView.findViewById(R.id.titleView);
             expDuration = itemView.findViewById(R.id.description);
             expLocation = itemView.findViewById(R.id.smallDesc);

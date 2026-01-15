@@ -26,13 +26,13 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(UserDAO.CREATE_TABLE);
-        db.execSQL(PostDAO.CREATE_TABLE);
+        db.execSQL(ExperienceDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + UserDAO.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + PostDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ExperienceDAO.TABLE_NAME);
         onCreate(db);
     }
 }

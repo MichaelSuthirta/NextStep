@@ -86,7 +86,7 @@
             android:text="Start Date"
             android:textColor="@color/black"
             style="?android:spinnerStyle"
-            android:onClick="chooseStartDate" />
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -104,7 +104,7 @@
             android:text="End Date"
             android:textColor="@color/black"
             style="?android:spinnerStyle"
-            android:onClick="chooseEndDate" />
+            />
 
     </LinearLayout>
 
@@ -117,6 +117,7 @@
         android:textColor="@color/black"
         android:fontFamily="@font/poppins"
         android:textSize="12sp"
+        android:checked="false"
         />
 
     <Button

@@ -5,47 +5,50 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.nextstep.models.Experience;
 import com.example.nextstep.models.Post;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class PostDAO {
+public class ExperienceDAO {
 
-    public static final String TABLE_NAME = "posts";
+    public static final String TABLE_NAME = "experiences";
 
-    private static final String COL_POSTID = "post_id";
+    private static final String COL_POSTID = "exp_id";
     private static final String COL_USERID = "user_id";
-    private static final String COL_CONTENT = "content";
-    private static final String COL_DATETIME = "datetime";
-    private static final String COL_IMG = "imagePath";
+    private static final String COL_TITLE = "title";
+    private static final String COL_START = "start";
+    private static final String COL_END = "end";
+    private static final String COL_LOCATION = "location";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
             " (" + COL_POSTID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_USERID + " INTEGER, " +
-            COL_CONTENT + " TEXT, " +
-            COL_DATETIME + " TEXT, " +
-            COL_IMG + " TEXT, " +
+            COL_TITLE + " TEXT, " +
+            COL_START + " TEXT, " +
+            COL_END + " TEXT, " +
+            COL_LOCATION + " TEXT, " +
             "FOREIGN KEY (" + COL_USERID + ") REFERENCES " + UserDAO.TABLE_NAME + "("
             + COL_USERID + ")" +
             ")";
 
-    private SQLiteConnector dbConnector;
+    private final SQLiteConnector dbConnector;
 
-    public PostDAO(SQLiteConnector dbConn) {
+    public ExperienceDAO(SQLiteConnector dbConn) {
         this.dbConnector = dbConn;
     }
 
-    public long createPost(Post post){
+    public long createPost(Experience exp){
         SQLiteDatabase db = dbConnector.getWritableDatabase();
         long result = -1;
 
         ContentValues cv = new ContentValues();
 
-        cv.put(COL_USERID, post.getUserId());
-        cv.put(COL_CONTENT, post.getContent());
-        cv.put(COL_DATETIME, post.getPostDate());
-        cv.put(COL_IMG, post.getImgPath());
+        cv.put(COL_USERID, exp.getUserId());
+        cv.put(COL_TITLE, exp.getTitle());
+        cv.put(COL_START, exp.getStart());
+        cv.put(COL_END, exp.getFinish());
+        cv.put(COL_LOCATION, exp.getLocation());
 
         result = db.insert(TABLE_NAME, null, cv);
         db.close();
@@ -54,11 +57,11 @@ public class PostDAO {
     }
 
     @SuppressLint("Range")
-    public ArrayList<Post> getUserPosts(String userID){
+    public ArrayList<Experience> getUserExps(String userID){
         SQLiteDatabase db = dbConnector.getReadableDatabase();
 
         int id = Integer.parseInt(userID);
-        ArrayList<Post> postList = new ArrayList<>();
+        ArrayList<Experience> postList = new ArrayList<>();
 
         Cursor cursor = db.query(
                 TABLE_NAME,
@@ -73,12 +76,13 @@ public class PostDAO {
         cursor.moveToFirst();
 
         while(cursor.moveToNext()){
-             Post post = new Post(
+             Experience post = new Experience(
                      Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_POSTID))),
                      Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_USERID))),
-                     cursor.getString(cursor.getColumnIndex(COL_CONTENT)),
-                     cursor.getString(cursor.getColumnIndex(COL_IMG)),
-                     cursor.getString(cursor.getColumnIndex(COL_DATETIME))
+                     cursor.getString(cursor.getColumnIndex(COL_TITLE)),
+                     cursor.getString(cursor.getColumnIndex(COL_START)),
+                     cursor.getString(cursor.getColumnIndex(COL_END)),
+                     cursor.getString(cursor.getColumnIndex(COL_LOCATION))
              );
              postList.add(post);
         }

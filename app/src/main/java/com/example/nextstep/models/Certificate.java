@@ -1,30 +1,17 @@
 package com.example.nextstep.models;
 
-public class Certificate {
-    private String id, imgPath, title, publisher, publishDate, expireDate;
+public class Certificate extends Post{
+    private String title;
+    private String publisher;
+    private String publishDate;
+    private String expireDate;
 
-    public Certificate(String imgPath, String title, String publisher, String publishDate, String expireDate) {
-        this.imgPath = imgPath;
+    public Certificate(String postId, String userId, String title, String publisher, String publishDate, String expireDate) {
+        super(postId, userId);
         this.title = title;
         this.publisher = publisher;
         this.publishDate = publishDate;
         this.expireDate = expireDate;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
     }
 
     public String getTitle() {

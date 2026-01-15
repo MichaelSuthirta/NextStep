@@ -46,9 +46,9 @@ public class ProfileFragment extends Fragment {
         rvExperiences = view.findViewById(R.id.rvExperience);
 
         ArrayList<Experience> expList = new ArrayList<>();
-        expList.add(new Experience("", "Test", "a", "b", "tes"));
-        expList.add(new Experience("", "Test2", "a", "b", "tes"));
-        expList.add(new Experience("", "Test3", "a", "b", "tes"));
+        expList.add(new Experience("", "", "Test", "a", "b", "tes"));
+        expList.add(new Experience("", "", "Test2", "a", "b", "tes"));
+        expList.add(new Experience("", "", "Test3", "a", "b", "tes"));
 
         adapter = new ExpRVAdapter(expList);
         rvExperiences.setAdapter(adapter);

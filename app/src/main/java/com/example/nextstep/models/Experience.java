@@ -1,30 +1,17 @@
 package com.example.nextstep.models;
 
-public class Experience {
-    private String id, imgPath, title, start, finish, location;
+public class Experience extends Post{
+    private String title;
+    private String start;
+    private String finish;
+    private String location;
 
-    public Experience(String imgPath, String title, String start, String finish, String location) {
-        this.imgPath = imgPath;
+    public Experience(String postID, String userID, String title, String start, String finish, String location) {
+        super(postID, userID);
         this.title = title;
         this.start = start;
         this.finish = finish;
         this.location = location;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
     }
 
     public String getTitle() {

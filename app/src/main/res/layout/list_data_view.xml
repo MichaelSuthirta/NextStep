@@ -6,16 +6,22 @@
     >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:id="@+id/imgView"
+        android:src="@drawable/star_point"
+        android:layout_marginRight="10dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titleView"
-        android:text="Test"
+        android:text="Title"
+        android:fontFamily="@font/poppins"
+        android:textFontWeight="700"
+        android:textSize="15sp"
+        android:textColor="@color/black"
         android:layout_toEndOf="@id/imgView"
         />
 
@@ -24,6 +30,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/description"
         android:text="Desc"
+        android:fontFamily="@font/calibri"
+        android:textFontWeight="400"
+        android:textSize="13sp"
+        android:textColor="@color/black"
         android:layout_toEndOf="@id/imgView"
         android:layout_below="@id/titleView"
         />
@@ -33,6 +43,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/smallDesc"
         android:text="Desc 2"
+        android:fontFamily="@font/calibri"
+        android:textFontWeight="400"
+        android:textSize="10sp"
+        android:textColor="@color/black"
         android:layout_toEndOf="@id/imgView"
         android:layout_below="@id/description"
         />
