@@ -4,8 +4,7 @@ public class Post {
     private String postId;
     private String userId;
 
-    public Post(String postId, String userId) {
-        this.postId = postId;
+    public Post(String userId) {
         this.userId = userId;
     }
 

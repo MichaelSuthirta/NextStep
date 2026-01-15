@@ -77,17 +77,18 @@ public class ExperienceDAO {
 
         while(cursor.moveToNext()){
              Experience post = new Experience(
-                     Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_POSTID))),
                      Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_USERID))),
                      cursor.getString(cursor.getColumnIndex(COL_TITLE)),
                      cursor.getString(cursor.getColumnIndex(COL_START)),
                      cursor.getString(cursor.getColumnIndex(COL_END)),
                      cursor.getString(cursor.getColumnIndex(COL_LOCATION))
              );
+             post.setPostId(Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_POSTID))));
              postList.add(post);
         }
 
         db.close();
+        cursor.close();
 
         return postList;
     }

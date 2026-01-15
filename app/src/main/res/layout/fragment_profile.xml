@@ -79,6 +79,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rvExperience"
+        android:visibility="visible"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noExp"
+        android:text="No experience found"
+        android:visibility="gone"
         />
 
 </LinearLayout>

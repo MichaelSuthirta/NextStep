@@ -2,18 +2,26 @@ package com.example.nextstep;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.nextstep.data_access.ExperienceDAO;
+import com.example.nextstep.data_access.SQLiteConnector;
+import com.example.nextstep.models.Experience;
+import com.example.nextstep.models.User;
 
 import java.util.Calendar;
 import java.util.Dictionary;
@@ -23,8 +31,11 @@ public class AddExperienceActivity extends AppCompatActivity {
 
     Dictionary<Integer, String> monthDictionary = new Hashtable<>(12);
 
+    private TextView position, companyName, location;
     private DatePickerDialog startDatePicker, endDatePicker;
-    private Button startDateBtn, endDateBtn;
+    private Button startDateBtn, endDateBtn, addExperience;
+
+    private ExperienceDAO db;
 
     private CheckBox currentExpCheckbox;
 
@@ -39,9 +50,16 @@ public class AddExperienceActivity extends AppCompatActivity {
             return insets;
         });
 
+        position = findViewById(R.id.jobRole);
+        companyName = findViewById(R.id.companyName);
+        location = findViewById(R.id.location);
+
         startDateBtn = findViewById(R.id.startDatePicker);
         endDateBtn = findViewById(R.id.endDatePicker);
         currentExpCheckbox = findViewById(R.id.currentExpCheckbox);
+
+        addExperience = findViewById(R.id.addExperienceButton);
+        db = new ExperienceDAO(SQLiteConnector.getInstance(this));
 
         initMonthDict();
         startDatePicker = initDatePicker(startDateBtn);
@@ -63,6 +81,26 @@ public class AddExperienceActivity extends AppCompatActivity {
         }
         else{
             endDateBtn.setEnabled(true);
+        }
+
+        addExperience.setOnClickListener(
+                v -> postExperience()
+        );
+    }
+
+    private void postExperience() {
+        long result = db.createPost(new Experience(User.getActiveUser().getId(),
+                position.getText().toString() + " at " + companyName.getText().toString(),
+                startDateBtn.getText().toString(),
+                endDateBtn.getText().toString(),
+                location.getText().toString()
+                )
+        );
+
+        if (result > 0){
+            Toast.makeText(this, "Experience added.", Toast.LENGTH_LONG).show();
+            Intent returnToProfile = new Intent(this, ProfilePage.class);
+            startActivity(returnToProfile);
         }
     }
 

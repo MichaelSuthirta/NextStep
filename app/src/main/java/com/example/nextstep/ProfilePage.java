@@ -59,7 +59,7 @@ public class ProfilePage extends AppCompatActivity {
 
         //Gets the extra data put in the intent moving to this page, then finds the data in database
         User activeUser = userDAO.getUserByUsername((this.getIntent()).getStringExtra("username"));
-
+        User.setActiveUser(activeUser);
         tvName.setText(activeUser.getUsername());
     }
 }

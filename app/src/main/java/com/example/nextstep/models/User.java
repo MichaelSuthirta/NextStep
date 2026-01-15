@@ -3,6 +3,8 @@ package com.example.nextstep.models;
 public class User {
     private String id, username, phone, email, password;
 
+    private static User activeUser;
+
     public User(String username, String phone, String email, String password) {
 //        this.id = id;
         this.username = username;
@@ -49,5 +51,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static User getActiveUser() {
+        return activeUser;
+    }
+
+    public static void setActiveUser(User user) {
+        activeUser = user;
     }
 }

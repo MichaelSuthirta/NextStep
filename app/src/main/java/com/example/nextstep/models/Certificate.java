@@ -6,8 +6,8 @@ public class Certificate extends Post{
     private String publishDate;
     private String expireDate;
 
-    public Certificate(String postId, String userId, String title, String publisher, String publishDate, String expireDate) {
-        super(postId, userId);
+    public Certificate(String userId, String title, String publisher, String publishDate, String expireDate) {
+        super(userId);
         this.title = title;
         this.publisher = publisher;
         this.publishDate = publishDate;

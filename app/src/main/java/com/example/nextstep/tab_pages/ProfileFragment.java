@@ -1,5 +1,8 @@
 package com.example.nextstep.tab_pages;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +23,10 @@ import android.widget.Toast;
 import com.example.nextstep.AddExperienceActivity;
 import com.example.nextstep.ProfilePage;
 import com.example.nextstep.R;
+import com.example.nextstep.data_access.ExperienceDAO;
+import com.example.nextstep.data_access.SQLiteConnector;
 import com.example.nextstep.models.Experience;
+import com.example.nextstep.models.User;
 import com.example.nextstep.tools.ExpRVAdapter;
 
 import java.util.ArrayList;
@@ -28,12 +34,14 @@ import java.util.ArrayList;
 public class ProfileFragment extends Fragment {
     public ProfileFragment(){};
 
-    TextView abtMe;
+    TextView abtMe, noExp;
 
     ImageView abtMeEdit, addExp, expEdit;
 
     RecyclerView rvExperiences;
     ExpRVAdapter adapter;
+
+    ExperienceDAO db;
 
     @Nullable
     @Override
@@ -43,13 +51,22 @@ public class ProfileFragment extends Fragment {
         addExp = view.findViewById(R.id.addExp);
         expEdit = view.findViewById(R.id.expEditBtn);
 
+        noExp = view.findViewById(R.id.noExp);
+
+        db = new ExperienceDAO(SQLiteConnector.getInstance(this.getContext()));
+
         rvExperiences = view.findViewById(R.id.rvExperience);
 
-        ArrayList<Experience> expList = new ArrayList<>();
-        expList.add(new Experience("", "", "Test", "a", "b", "tes"));
-        expList.add(new Experience("", "", "Test2", "a", "b", "tes"));
-        expList.add(new Experience("", "", "Test3", "a", "b", "tes"));
+        ArrayList<Experience> expList = db.getUserExps(User.getActiveUser().getId());
 
+        if(expList.isEmpty()){
+            rvExperiences.setVisibility(View.GONE);
+            noExp.setVisibility(View.VISIBLE);
+        }
+        else{
+            rvExperiences.setVisibility(View.VISIBLE);
+            noExp.setVisibility(View.GONE);
+        }
         adapter = new ExpRVAdapter(expList);
         rvExperiences.setAdapter(adapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(this.getContext()));

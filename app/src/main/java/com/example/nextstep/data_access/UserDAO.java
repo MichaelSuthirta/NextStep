@@ -74,6 +74,7 @@ public class UserDAO {
         }
         finally {
             db.close();
+            cursor.close();
         }
         return user;
     }

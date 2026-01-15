@@ -6,8 +6,8 @@ public class Experience extends Post{
     private String finish;
     private String location;
 
-    public Experience(String postID, String userID, String title, String start, String finish, String location) {
-        super(postID, userID);
+    public Experience(String userID, String title, String start, String finish, String location) {
+        super(userID);
         this.title = title;
         this.start = start;
         this.finish = finish;

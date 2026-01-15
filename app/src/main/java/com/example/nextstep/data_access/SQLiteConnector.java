@@ -12,7 +12,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
 
     private static SQLiteConnector instance;
 
-    public SQLiteConnector(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    private SQLiteConnector(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, null, DB_VER);
     }
 
