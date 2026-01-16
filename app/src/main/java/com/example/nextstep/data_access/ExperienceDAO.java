@@ -17,7 +17,6 @@ public class ExperienceDAO {
     private static final String COL_POSTID = "exp_id";
     private static final String COL_USERID = "user_id";
     private static final String COL_TITLE = "title";
-    // Avoid reserved keywords like "end" by using explicit column names.
     private static final String COL_START = "start_date";
     private static final String COL_END = "end_date";
     private static final String COL_LOCATION = "location";
@@ -29,7 +28,6 @@ public class ExperienceDAO {
             COL_START + " TEXT, " +
             COL_END + " TEXT, " +
             COL_LOCATION + " TEXT, " +
-            // FK should point to users(id), not users(user_id)
             "FOREIGN KEY (" + COL_USERID + ") REFERENCES " + UserDAO.TABLE_NAME + "(id)" +
             ")";
 
