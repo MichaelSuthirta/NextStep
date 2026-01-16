@@ -17,19 +17,20 @@ public class ExperienceDAO {
     private static final String COL_POSTID = "exp_id";
     private static final String COL_USERID = "user_id";
     private static final String COL_TITLE = "title";
-    private static final String COL_START = "start";
-    private static final String COL_END = "end";
+    // Avoid reserved keywords like "end" by using explicit column names.
+    private static final String COL_START = "start_date";
+    private static final String COL_END = "end_date";
     private static final String COL_LOCATION = "location";
 
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
             " (" + COL_POSTID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_USERID + " INTEGER, " +
             COL_TITLE + " TEXT, " +
             COL_START + " TEXT, " +
             COL_END + " TEXT, " +
             COL_LOCATION + " TEXT, " +
-            "FOREIGN KEY (" + COL_USERID + ") REFERENCES " + UserDAO.TABLE_NAME + "("
-            + COL_USERID + ")" +
+            // FK should point to users(id), not users(user_id)
+            "FOREIGN KEY (" + COL_USERID + ") REFERENCES " + UserDAO.TABLE_NAME + "(id)" +
             ")";
 
     private final SQLiteConnector dbConnector;
@@ -59,8 +60,6 @@ public class ExperienceDAO {
     @SuppressLint("Range")
     public ArrayList<Experience> getUserExps(String userID){
         SQLiteDatabase db = dbConnector.getReadableDatabase();
-
-        int id = Integer.parseInt(userID);
         ArrayList<Experience> postList = new ArrayList<>();
 
         Cursor cursor = db.query(
@@ -73,18 +72,18 @@ public class ExperienceDAO {
                 null,
                 null
         );
-        cursor.moveToFirst();
-
-        while(cursor.moveToNext()){
-             Experience post = new Experience(
-                     Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_USERID))),
-                     cursor.getString(cursor.getColumnIndex(COL_TITLE)),
-                     cursor.getString(cursor.getColumnIndex(COL_START)),
-                     cursor.getString(cursor.getColumnIndex(COL_END)),
-                     cursor.getString(cursor.getColumnIndex(COL_LOCATION))
-             );
-             post.setPostId(Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_POSTID))));
-             postList.add(post);
+        if (cursor.moveToFirst()) {
+            do {
+                Experience post = new Experience(
+                        Integer.toString(cursor.getInt(cursor.getColumnIndexOrThrow(COL_USERID))),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_TITLE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_START)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_END)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_LOCATION))
+                );
+                post.setPostId(Integer.toString(cursor.getInt(cursor.getColumnIndexOrThrow(COL_POSTID))));
+                postList.add(post);
+            } while (cursor.moveToNext());
         }
 
         db.close();

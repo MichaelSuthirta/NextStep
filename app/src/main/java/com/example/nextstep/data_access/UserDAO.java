@@ -22,7 +22,7 @@ public class UserDAO {
         this.dbConnector = db;
     }
 
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
             " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_USERNAME + " TEXT, " +
             COL_PHONE + " TEXT, " +

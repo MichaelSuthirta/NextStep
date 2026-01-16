@@ -20,6 +20,8 @@
             android:layout_height="160dp"
             android:src="@drawable/banner_placeholder"
             android:scaleType="centerCrop"
+            android:clickable="true"
+            android:focusable="true"
             android:contentDescription="Profile Banner"
             />
 
@@ -30,6 +32,8 @@
             android:layout_height="120dp"
             android:src="@drawable/profile_placeholder"
             android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_alignParentBottom="true"
             />
 
