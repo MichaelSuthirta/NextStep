@@ -87,4 +87,28 @@ public class CertificateDAO {
 
         return postList;
     }
+
+    /**
+     * Updates an existing certificate by its cert_id (postId).
+     * @return number of rows affected.
+     */
+    public int updateCertificate(Certificate cert) {
+        if (cert == null || cert.getPostId() == null) return 0;
+        SQLiteDatabase db = dbConnector.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COL_TITLE, cert.getTitle());
+        cv.put(COL_PUBLISH, cert.getPublishDate());
+        cv.put(COL_EXPIRE, cert.getExpireDate());
+        cv.put(COL_PUBLISHER, cert.getPublisher());
+
+        int rows = db.update(
+                TABLE_NAME,
+                cv,
+                COL_POSTID + "=? AND " + COL_USERID + "=?",
+                new String[]{cert.getPostId(), cert.getUserId()}
+        );
+        db.close();
+        return rows;
+    }
 }

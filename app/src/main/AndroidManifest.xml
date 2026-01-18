@@ -14,9 +14,15 @@
         <activity
             android:name=".AddExperienceActivity"
             android:exported="false" />
+
         <activity
-            android:name=".tab_pages.ProfileFragment"
+            android:name=".AddCertificateActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".EditCertificateActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ProfilePage"
             android:exported="false" />
