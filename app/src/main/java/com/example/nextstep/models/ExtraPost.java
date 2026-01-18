@@ -1,14 +1,15 @@
 package com.example.nextstep.models;
 
-public class ExtraPosts extends Post{
-    private String title, organization, startDate, end, categoryName;
+public class ExtraPost extends Post{
+    private String title, organization, startDate, endDate, categoryID;
 
-    public ExtraPosts(String userId, String title, String organization, String startDate, String end) {
+    public ExtraPost(String userId, String title, String organization, String startDate, String endDate, String categoryID) {
         super(userId);
         this.title = title;
         this.organization = organization;
         this.startDate = startDate;
-        this.end = end;
+        this.endDate = endDate;
+        this.categoryID = categoryID;
     }
 
     public String getTitle() {
@@ -35,11 +36,19 @@ public class ExtraPosts extends Post{
         this.startDate = startDate;
     }
 
-    public String getEnd() {
-        return end;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
     }
 }
