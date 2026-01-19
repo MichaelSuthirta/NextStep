@@ -27,6 +27,21 @@
             android:exported="false" />
 
         <activity
+            android:name=".AddSectionActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddSectionEntryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditSectionEntryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfilePage"
             android:exported="false" />
         <activity android:name=".Splash2Activity" />

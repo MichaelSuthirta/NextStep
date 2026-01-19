@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    tools:context=".EditProfileActivity">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:contentDescription="Back" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="We should get to know you!"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_marginBottom="28dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_input"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:fontFamily="@font/poppins"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Role"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_marginTop="12dp" />
+
+    <EditText
+        android:id="@+id/editRole"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_input"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:fontFamily="@font/poppins"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="6dp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="Save"
+        app:backgroundTint="@null"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btn_login"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

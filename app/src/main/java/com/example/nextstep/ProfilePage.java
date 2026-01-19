@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.nextstep.data_access.SQLiteConnector;
 import com.example.nextstep.data_access.UserDAO;
+import com.example.nextstep.data_access.UserProfileDAO;
 import com.example.nextstep.models.User;
 import com.example.nextstep.tools.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -31,12 +32,15 @@ public class ProfilePage extends AppCompatActivity {
     //Tabs
     TabLayout tabLayout;
     ViewPager2 profileTabs;
-    ViewPagerAdapter adapter;   
+    ViewPagerAdapter adapter;
 
     UserDAO userDAO;
+    UserProfileDAO userProfileDAO;
 
     ActivityResultLauncher<String[]> pickProfileImage;
     ActivityResultLauncher<String[]> pickBannerImage;
+
+    ActivityResultLauncher<Intent> editProfileLauncher;
 
     SharedPreferences sp;
 
@@ -51,8 +55,10 @@ public class ProfilePage extends AppCompatActivity {
 
         profilePic = findViewById(R.id.profilePic);
         banner = findViewById(R.id.banner);
+        ImageView editBtn = findViewById(R.id.profileEditBtn);
 
         userDAO = new UserDAO(SQLiteConnector.getInstance(this));
+        userProfileDAO = new UserProfileDAO(SQLiteConnector.getInstance(this));
 
         tabLayout = findViewById(R.id.tabLayout);
         profileTabs = findViewById(R.id.profileTab);
@@ -104,17 +110,47 @@ public class ProfilePage extends AppCompatActivity {
         loadSavedUris();
         // ====== END IMAGE PICKER SETUP ======
 
-        User activeUser;
+        // Edit profile launcher
+        editProfileLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    // Refresh header after save
+                    refreshHeader();
+                }
+        );
 
-        if(this.getIntent().getStringExtra("username") == null){
-            activeUser = User.getActiveUser();
-        }
-        else {
-            //Gets the extra data put in the intent moving to this page, then finds the data in database
+        editBtn.setOnClickListener(v -> {
+            Intent i = new Intent(this, EditProfileActivity.class);
+            editProfileLauncher.launch(i);
+        });
+
+        //Gets the extra data put in the intent moving to this page, then finds the data in database
+        // Resolve active user
+        User activeUser = User.getActiveUser();
+        if (activeUser == null) {
             activeUser = userDAO.getUserByUsername((this.getIntent()).getStringExtra("username"));
             User.setActiveUser(activeUser);
         }
+        refreshHeader();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshHeader();
+    }
+
+    private void refreshHeader() {
+        User activeUser = User.getActiveUser();
+        if (activeUser == null) return;
         tvName.setText(activeUser.getUsername());
+
+        String role = userProfileDAO.getProfile(activeUser.getId()).getRole();
+        if (role == null || role.trim().isEmpty()) {
+            tvRole.setText("Software Engineer | App Developer");
+        } else {
+            tvRole.setText(role);
+        }
     }
 
     private void saveUri(String key, Uri uri) {
