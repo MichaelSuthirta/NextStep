@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             String u = etUsername.getText().toString().trim();
             String p = etPassword.getText().toString().trim();
 
-            if (u.isBlank() || p.isBlank()) {
+            if (u.isEmpty() || p.isEmpty()) {
                 Toast.makeText(this, "Username & Password wajib diisi", Toast.LENGTH_SHORT).show();
                 return;
             }
