@@ -104,9 +104,16 @@ public class ProfilePage extends AppCompatActivity {
         loadSavedUris();
         // ====== END IMAGE PICKER SETUP ======
 
-        //Gets the extra data put in the intent moving to this page, then finds the data in database
-        User activeUser = userDAO.getUserByUsername((this.getIntent()).getStringExtra("username"));
-        User.setActiveUser(activeUser);
+        User activeUser;
+
+        if(this.getIntent().getStringExtra("username") == null){
+            activeUser = User.getActiveUser();
+        }
+        else {
+            //Gets the extra data put in the intent moving to this page, then finds the data in database
+            activeUser = userDAO.getUserByUsername((this.getIntent()).getStringExtra("username"));
+            User.setActiveUser(activeUser);
+        }
         tvName.setText(activeUser.getUsername());
     }
 
