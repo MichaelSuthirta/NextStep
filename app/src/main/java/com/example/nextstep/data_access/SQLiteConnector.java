@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class SQLiteConnector extends SQLiteOpenHelper {
     private static final String DB_NAME = "nextstep_db";
     // Bump when schema changes.
-    private static final int DB_VER = 6;
+    private static final int DB_VER = 8;
 
     private static SQLiteConnector instance;
 
@@ -29,6 +29,11 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
         db.execSQL(CertificateDAO.CREATE_TABLE);
+        db.execSQL(UserProfileDAO.CREATE_TABLE);
+
+        // Additional profile sections (Competitions, Volunteers, etc.)
+        db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
+        db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
     }
 
     @Override
@@ -37,13 +42,22 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
         db.execSQL(CertificateDAO.CREATE_TABLE);
+        db.execSQL(UserProfileDAO.CREATE_TABLE);
+
+        db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
+        db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + CertificateDAO.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + ExperienceDAO.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + UserDAO.TABLE_NAME);
-        onCreate(db);
+        // Keep existing data when possible; only add new tables/columns.
+        if (oldVersion < 7) {
+            db.execSQL(UserProfileDAO.CREATE_TABLE);
+        }
+
+        if (oldVersion < 8) {
+            db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
+            db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
+        }
     }
 }

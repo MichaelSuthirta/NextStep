@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp">
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/star_point"
+        android:layout_marginEnd="12dp" />
+
+    <ImageView
+        android:id="@+id/editIcon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/pencil_icon"
+        android:padding="2dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imgView"
+        android:layout_toStartOf="@id/editIcon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="700"
+            android:textSize="14sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Company"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="400"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/smallDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="January 2025 - January 2025"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="400"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+</RelativeLayout>

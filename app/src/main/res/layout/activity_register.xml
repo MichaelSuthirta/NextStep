@@ -115,6 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:text="Register"
+                app:backgroundTint="@null"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:background="@drawable/btn_login"

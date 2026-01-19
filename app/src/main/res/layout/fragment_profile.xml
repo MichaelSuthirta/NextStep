@@ -38,7 +38,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Write descriptions here"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="12sp"
         />
+
+    <!-- My Skills Card -->
+    <LinearLayout
+        android:id="@+id/skillsCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_card_outline"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/skillsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Skills"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/skillsAddBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/add_item_icon"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="Add Skill" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/skillsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add skills here"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="6dp" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

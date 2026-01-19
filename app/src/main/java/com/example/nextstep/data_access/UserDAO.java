@@ -45,6 +45,19 @@ public class UserDAO {
         return resultCode;
     }
 
+    /** Update user's display name (username) by id. */
+    public boolean updateUsername(String userId, String newUsername) {
+        SQLiteDatabase db = dbConnector.getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(COL_USERNAME, newUsername);
+            int rows = db.update(TABLE_NAME, cv, COL_ID + "=?", new String[]{userId});
+            return rows > 0;
+        } finally {
+            db.close();
+        }
+    }
+
     @SuppressLint("Range")
     public User getUserByUsername(String username){
         SQLiteDatabase db = dbConnector.getReadableDatabase();
