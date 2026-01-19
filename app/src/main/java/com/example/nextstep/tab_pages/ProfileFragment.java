@@ -179,6 +179,27 @@ public class ProfileFragment extends Fragment implements ExpRVAdapter.onExpEditC
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        db = new ExperienceDAO(SQLiteConnector.getInstance(this.getContext()));
+
+        ArrayList<Experience> expList = db.getUserExps(User.getActiveUser().getId());
+
+        if(expList.isEmpty()){
+            rvExperiences.setVisibility(View.GONE);
+            noExp.setVisibility(View.VISIBLE);
+        }
+        else{
+            rvExperiences.setVisibility(View.VISIBLE);
+            noExp.setVisibility(View.GONE);
+        }
+        adapter = new ExpRVAdapter(expList, this);
+        rvExperiences.setAdapter(adapter);
+        rvExperiences.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+    }
+
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
