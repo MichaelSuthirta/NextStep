@@ -27,6 +27,9 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
+        db.execSQL(CertificateDAO.CREATE_TABLE);
+        db.execSQL(ExtraPostDAO.CREATE_TABLE);
+        db.execSQL(CategoryDAO.CREATE_TABLE);
     }
 
     @Override
@@ -34,12 +37,18 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         super.onOpen(db);
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
+        db.execSQL(CertificateDAO.CREATE_TABLE);
+        db.execSQL(ExtraPostDAO.CREATE_TABLE);
+        db.execSQL(CategoryDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + ExperienceDAO.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + UserDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CertificateDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ExtraPostDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CategoryDAO.TABLE_NAME);
         onCreate(db);
     }
 }

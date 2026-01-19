@@ -5,11 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,45 +26,55 @@ import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class AddExperienceActivity extends AppCompatActivity {
+public class EditExperienceActivity extends AppCompatActivity {
+
+    private EditText companyName, role, location;
+    private Button startDateBtn, endDateBtn, editExp;
+    private CheckBox currentExpCheckbox;
+    private DatePickerDialog startDatePicker, endDatePicker;
+
+    private Experience exp;
 
     Dictionary<Integer, String> monthDictionary = new Hashtable<>(12);
 
-    private TextView position, companyName, location;
-    private DatePickerDialog startDatePicker, endDatePicker;
-    private Button startDateBtn, endDateBtn, addExperience;
-
     private ExperienceDAO db;
-
-    private CheckBox currentExpCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_experience);
+        setContentView(R.layout.activity_edit_experience);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        position = findViewById(R.id.jobRole);
-        companyName = findViewById(R.id.companyName);
-        location = findViewById(R.id.location);
+        exp = getIntent().getParcelableExtra("experience");
 
-        startDateBtn = findViewById(R.id.startDatePicker);
-        endDateBtn = findViewById(R.id.endDatePicker);
-        currentExpCheckbox = findViewById(R.id.currentExpCheckbox);
+        Log.v("DebugOnArrival", exp.getPostId() + ", " + exp.getTitle());
 
-        addExperience = findViewById(R.id.addExperienceButton);
+        role = findViewById(R.id.jobRoleExpEdit);
+        companyName = findViewById(R.id.companyEdit);
+        location = findViewById(R.id.locationExpEdit);
+
+        startDateBtn = findViewById(R.id.startDateExpEditPicker);
+        endDateBtn = findViewById(R.id.endDateExpEditPicker);
+        currentExpCheckbox = findViewById(R.id.currentExpEditCheckbox);
+
+        editExp = findViewById(R.id.editExperienceConfirmButton);
         db = new ExperienceDAO(SQLiteConnector.getInstance(this));
 
         initMonthDict();
         startDatePicker = initDatePicker(startDateBtn);
         endDatePicker = initDatePicker(endDateBtn);
 
-        startDateBtn.setText(currentMonth());
+        companyName.setText(exp.getCompanyName());
+        role.setText(exp.getRole());
+        location.setText(exp.getLocation());
+        startDateBtn.setText(exp.getStart());
+        endDateBtn.setText(exp.getFinish());
+
         startDateBtn.setOnClickListener(
                 v -> chooseStartDate()
         );
@@ -74,7 +83,6 @@ public class AddExperienceActivity extends AppCompatActivity {
                 v -> chooseEndDate()
         );
 
-        endDateBtn.setText(currentMonth());
 
         if(currentExpCheckbox.isChecked()){
             endDateBtn.setEnabled(false);
@@ -83,24 +91,33 @@ public class AddExperienceActivity extends AppCompatActivity {
             endDateBtn.setEnabled(true);
         }
 
-        addExperience.setOnClickListener(
-                v -> postExperience()
+        editExp.setOnClickListener(
+                v -> updateExperience()
         );
     }
 
-    private void postExperience() {
-        long result = db.createPost(new Experience(
-                User.getActiveUser().getId(),
-                companyName.getText().toString(),
-                position.getText().toString(),
-                startDateBtn.getText().toString(),
-                endDateBtn.getText().toString(),
-                location.getText().toString()
-                )
-        );
+    private void updateExperience() {
+        //TODO: Validate
+        if(!companyName.getText().toString().equalsIgnoreCase(exp.getCompanyName())){
+            exp.setCompanyName(companyName.getText().toString());
+        }
+        if(!role.getText().toString().equalsIgnoreCase(exp.getRole())){
+            exp.setRole(role.getText().toString());
+        }
+        if(!startDateBtn.getText().toString().equalsIgnoreCase(exp.getStart())){
+            exp.setStart(startDateBtn.getText().toString());
+        }
+        if(!endDateBtn.getText().toString().equalsIgnoreCase(exp.getFinish())){
+            exp.setFinish(endDateBtn.getText().toString());
+        }
+        if(!location.getText().toString().equalsIgnoreCase(exp.getLocation())){
+            exp.setLocation(location.getText().toString());
+        }
+
+        long result = db.editExperience(exp);
 
         if (result > 0){
-            Toast.makeText(this, "Experience added.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Experience edited.", Toast.LENGTH_LONG).show();
             Intent returnToProfile = new Intent(this, ProfilePage.class);
             startActivity(returnToProfile);
         }

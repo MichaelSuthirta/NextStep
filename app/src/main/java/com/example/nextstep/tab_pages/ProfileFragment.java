@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nextstep.AddExperienceActivity;
+import com.example.nextstep.EditExperienceActivity;
 import com.example.nextstep.ProfilePage;
 import com.example.nextstep.R;
 import com.example.nextstep.data_access.ExperienceDAO;
@@ -31,7 +33,7 @@ import com.example.nextstep.tools.ExpRVAdapter;
 
 import java.util.ArrayList;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements ExpRVAdapter.onExpEditClickListener{
     public ProfileFragment(){};
 
     TextView abtMe, noExp;
@@ -67,7 +69,7 @@ public class ProfileFragment extends Fragment {
             rvExperiences.setVisibility(View.VISIBLE);
             noExp.setVisibility(View.GONE);
         }
-        adapter = new ExpRVAdapter(expList);
+        adapter = new ExpRVAdapter(expList, this);
         rvExperiences.setAdapter(adapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
@@ -104,4 +106,12 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    @Override
+    public void onBtnClick(Experience exp) {
+        Intent goToEdit = new Intent(this.getContext(), EditExperienceActivity.class);
+        goToEdit.putExtra("experience", exp);
+        startActivity(goToEdit);
+
+        Log.v("DEBUG", exp.getPostId() + ", " + exp.getCompanyName());
+    }
 }
