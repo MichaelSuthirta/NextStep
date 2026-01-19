@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation(libs.core.splashscreen)
+    implementation(libs.google.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -47,7 +48,8 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
     //firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services.auth)
+    implementation(libs.googleid)
 }
 

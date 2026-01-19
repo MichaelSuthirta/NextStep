@@ -128,7 +128,12 @@ public class ProfilePage extends AppCompatActivity {
         // Resolve active user
         User activeUser = User.getActiveUser();
         if (activeUser == null) {
-            activeUser = userDAO.getUserByUsername((this.getIntent()).getStringExtra("username"));
+            String key = (this.getIntent()).getStringExtra("username");
+            activeUser = userDAO.getUserByUsername(key);
+            if (activeUser == null) {
+                // Some flows pass email (Google / Firebase) as the key.
+                activeUser = userDAO.getUserByEmail(key);
+            }
             User.setActiveUser(activeUser);
         }
         refreshHeader();

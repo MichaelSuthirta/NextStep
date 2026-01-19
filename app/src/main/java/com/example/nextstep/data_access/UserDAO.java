@@ -45,6 +45,70 @@ public class UserDAO {
         return resultCode;
     }
 
+    /** Find user row by email. Returns null if not found. */
+    @SuppressLint("Range")
+    public User getUserByEmail(String email){
+        if (email == null) return null;
+
+        SQLiteDatabase db = dbConnector.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_NAME, null, COL_EMAIL + "=?",
+                    new String[]{email}, null, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                User user = new User(
+                        cursor.getString(cursor.getColumnIndex(COL_USERNAME)),
+                        cursor.getString(cursor.getColumnIndex(COL_PHONE)),
+                        cursor.getString(cursor.getColumnIndex(COL_EMAIL)),
+                        cursor.getString(cursor.getColumnIndex(COL_PASSWORD))
+                );
+                user.setId(Integer.toString(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+                return user;
+            }
+        } catch (Exception ignored) {
+            // fallthrough
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
+        }
+        return null;
+    }
+
+    /**
+     * Insert a user only if their email doesn't exist yet.
+     * Returns the existing or newly created user.
+     */
+    public User upsertByEmail(String username, String phone, String email, String password) {
+        User existing = getUserByEmail(email);
+        if (existing != null) {
+            // Optional: keep username up-to-date for Google users.
+            if (username != null && !username.trim().isEmpty() && !username.equals(existing.getUsername())) {
+                updateUsername(existing.getId(), username);
+                existing.setUsername(username);
+            }
+            return existing;
+        }
+
+        long id = addUser(new User(
+                username == null || username.trim().isEmpty() ? email : username,
+                phone == null ? "" : phone,
+                email,
+                password == null ? "" : password
+        ));
+
+        if (id <= 0) return getUserByEmail(email);
+
+        User created = new User(
+                username == null || username.trim().isEmpty() ? email : username,
+                phone == null ? "" : phone,
+                email,
+                password == null ? "" : password
+        );
+        created.setId(Long.toString(id));
+        return created;
+    }
+
     /** Update user's display name (username) by id. */
     public boolean updateUsername(String userId, String newUsername) {
         SQLiteDatabase db = dbConnector.getWritableDatabase();
