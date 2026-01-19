@@ -8,7 +8,8 @@ import androidx.annotation.Nullable;
 
 public class SQLiteConnector extends SQLiteOpenHelper {
     private static final String DB_NAME = "nextstep_db";
-    private static final int DB_VER = 5;
+    // Bump when schema changes.
+    private static final int DB_VER = 6;
 
     private static SQLiteConnector instance;
 
@@ -44,6 +45,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + CertificateDAO.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ExperienceDAO.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + UserDAO.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CertificateDAO.TABLE_NAME);
