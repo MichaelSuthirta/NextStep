@@ -16,7 +16,8 @@ public class ExperienceDAO {
 
     private static final String COL_POSTID = "exp_id";
     private static final String COL_USERID = "user_id";
-    private static final String COL_TITLE = "title";
+    private static final String COL_COMPANY = "company";
+    private static final String COL_ROLE = "role";
     private static final String COL_START = "start_date";
     private static final String COL_END = "end_date";
     private static final String COL_LOCATION = "location";
@@ -24,7 +25,8 @@ public class ExperienceDAO {
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
             " (" + COL_POSTID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_USERID + " INTEGER, " +
-            COL_TITLE + " TEXT, " +
+            COL_COMPANY + " TEXT, " +
+            COL_ROLE + " TEXT, " +
             COL_START + " TEXT, " +
             COL_END + " TEXT, " +
             COL_LOCATION + " TEXT, " +
@@ -44,7 +46,8 @@ public class ExperienceDAO {
         ContentValues cv = new ContentValues();
 
         cv.put(COL_USERID, exp.getUserId());
-        cv.put(COL_TITLE, exp.getTitle());
+        cv.put(COL_COMPANY, exp.getCompanyName());
+        cv.put(COL_ROLE, exp.getRole());
         cv.put(COL_START, exp.getStart());
         cv.put(COL_END, exp.getFinish());
         cv.put(COL_LOCATION, exp.getLocation());
@@ -74,7 +77,8 @@ public class ExperienceDAO {
             do {
                 Experience post = new Experience(
                         Integer.toString(cursor.getInt(cursor.getColumnIndexOrThrow(COL_USERID))),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_TITLE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_COMPANY)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_START)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_END)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_LOCATION))
@@ -88,5 +92,60 @@ public class ExperienceDAO {
         cursor.close();
 
         return postList;
+    }
+
+    public Experience findExpByID(String expID){
+        SQLiteDatabase db = dbConnector.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                TABLE_NAME,
+                null,
+                COL_POSTID + "=?",
+                new String[]{expID},
+                null,
+                null,
+                null,
+                null
+        );
+        if (cursor.moveToFirst()) {
+            Experience post = new Experience(
+                    Integer.toString(cursor.getInt(cursor.getColumnIndexOrThrow(COL_USERID))),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_COMPANY)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_START)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_END)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_LOCATION))
+            );
+            post.setPostId(Integer.toString(cursor.getInt(cursor.getColumnIndexOrThrow(COL_POSTID))));
+            return post;
+        }
+
+        db.close();
+        cursor.close();
+
+        return null;
+    }
+
+    public int editExperience(Experience experience){
+        SQLiteDatabase db = dbConnector.getWritableDatabase();
+
+        Experience post = findExpByID(experience.getPostId());
+
+        ContentValues cv = new ContentValues();
+        cv.put(COL_COMPANY, experience.getCompanyName());
+        cv.put(COL_ROLE, experience.getRole());
+        cv.put(COL_START, experience.getStart());
+        cv.put(COL_END, experience.getFinish());
+        cv.put(COL_LOCATION, experience.getLocation());
+
+        int result = db.update(
+                TABLE_NAME,
+                cv,
+                COL_POSTID + "=?",
+                new String[]{experience.getPostId()}
+        );
+
+        db.close();
+        return result;
     }
 }

@@ -1,5 +1,9 @@
 package com.example.nextstep.models;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
+
 public class Certificate extends Post{
     private String title;
     private String publisher;
@@ -45,4 +49,38 @@ public class Certificate extends Post{
     public void setExpireDate(String expireDate) {
         this.expireDate = expireDate;
     }
+
+    protected Certificate(Parcel in){
+        super(in);
+        title = in.readString();
+        publisher = in.readString();
+        publishDate = in.readString();
+        expireDate = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(title);
+        dest.writeString(publisher);
+        dest.writeString(publishDate);
+        dest.writeString(expireDate);
+    }
+
+    @Override
+    public int describeContents() {
+        return super.describeContents();
+    }
+
+    public static final Creator<Certificate> CREATOR = new Creator<Certificate>() {
+        @Override
+        public Certificate createFromParcel(Parcel in) {
+            return new Certificate(in);
+        }
+
+        @Override
+        public Certificate[] newArray(int size) {
+            return new Certificate[size];
+        }
+    };
 }

@@ -1,5 +1,6 @@
 package com.example.nextstep.tools;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import com.example.nextstep.models.Experience;
 import java.util.ArrayList;
 
 public class ExpRVAdapter extends RecyclerView.Adapter<ExpRVAdapter.ItemViewHolder>{
-    ArrayList<Experience> expList;
+    private static ArrayList<Experience> expList;
+    private static  ExpRVAdapter.onExpEditClickListener listener;
 
-    public ExpRVAdapter(ArrayList<Experience> expList) {
+    public ExpRVAdapter(ArrayList<Experience> expList, onExpEditClickListener listener) {
         this.expList = expList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,6 +39,11 @@ public class ExpRVAdapter extends RecyclerView.Adapter<ExpRVAdapter.ItemViewHold
         holder.expTitle.setText(exp.getTitle());
         holder.expDuration.setText(String.format("%s - %s", exp.getStart(), exp.getFinish()));
         holder.expLocation.setText(exp.getLocation());
+//        holder.editBtn.setOnClickListener(
+//                v -> {
+//                    Intent moveToEditPage = new Intent()
+//                }
+//        );
     }
 
     @Override
@@ -46,16 +54,31 @@ public class ExpRVAdapter extends RecyclerView.Adapter<ExpRVAdapter.ItemViewHold
         return expList.size();
     }
 
+    public interface onExpEditClickListener{
+        void onBtnClick(Experience exp);
+    }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
 
         TextView expTitle, expDuration, expLocation;
+        ImageView editBtn;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             expTitle = itemView.findViewById(R.id.titleView);
             expDuration = itemView.findViewById(R.id.description);
             expLocation = itemView.findViewById(R.id.smallDesc);
+            editBtn = itemView.findViewById(R.id.editExperienceItemBtn);
+
+            editBtn.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Experience exp = expList.get(getAdapterPosition());
+                            listener.onBtnClick(exp);
+                        }
+                    }
+            );
         }
     }
 }

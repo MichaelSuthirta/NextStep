@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NextStep">
         <activity
+            android:name=".EditExperienceActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddExperienceActivity"
             android:exported="false" />
 

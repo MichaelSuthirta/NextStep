@@ -1,5 +1,9 @@
 package com.example.nextstep.models;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
+
 public class ExtraPost extends Post{
     private String title, organization, startDate, endDate, categoryID;
 
@@ -51,4 +55,40 @@ public class ExtraPost extends Post{
     public void setCategoryID(String categoryID) {
         this.categoryID = categoryID;
     }
+
+    protected ExtraPost(Parcel in){
+        super(in);
+        title = in.readString();
+        organization = in.readString();
+        startDate = in.readString();
+        endDate = in.readString();
+        categoryID = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(title);
+        dest.writeString(organization);
+        dest.writeString(startDate);
+        dest.writeString(endDate);
+        dest.writeString(categoryID);
+    }
+
+    @Override
+    public int describeContents() {
+        return super.describeContents();
+    }
+
+    public static final Creator<ExtraPost> CREATOR = new Creator<ExtraPost>() {
+        @Override
+        public ExtraPost createFromParcel(Parcel in) {
+            return new ExtraPost(in);
+        }
+
+        @Override
+        public ExtraPost[] newArray(int size) {
+            return new ExtraPost[size];
+        }
+    };
 }

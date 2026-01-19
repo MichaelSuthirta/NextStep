@@ -29,11 +29,16 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
         db.execSQL(CertificateDAO.CREATE_TABLE);
+<<<<<<< HEAD
         db.execSQL(UserProfileDAO.CREATE_TABLE);
 
         // Additional profile sections (Competitions, Volunteers, etc.)
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
+=======
+        db.execSQL(ExtraPostDAO.CREATE_TABLE);
+        db.execSQL(CategoryDAO.CREATE_TABLE);
+>>>>>>> 793d372f17d0007b3e857c4d7901fe67849bcdc6
     }
 
     @Override
@@ -42,14 +47,20 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
         db.execSQL(CertificateDAO.CREATE_TABLE);
+<<<<<<< HEAD
         db.execSQL(UserProfileDAO.CREATE_TABLE);
 
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
+=======
+        db.execSQL(ExtraPostDAO.CREATE_TABLE);
+        db.execSQL(CategoryDAO.CREATE_TABLE);
+>>>>>>> 793d372f17d0007b3e857c4d7901fe67849bcdc6
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+<<<<<<< HEAD
         // Keep existing data when possible; only add new tables/columns.
         if (oldVersion < 7) {
             db.execSQL(UserProfileDAO.CREATE_TABLE);
@@ -59,5 +70,14 @@ public class SQLiteConnector extends SQLiteOpenHelper {
             db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
             db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
         }
+=======
+        db.execSQL("DROP TABLE IF EXISTS " + CertificateDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ExperienceDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + UserDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CertificateDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ExtraPostDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CategoryDAO.TABLE_NAME);
+        onCreate(db);
+>>>>>>> 793d372f17d0007b3e857c4d7901fe67849bcdc6
     }
 }
