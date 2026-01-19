@@ -169,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:buttonTint="@color/checkbox_checked"
-        android:text="This credential does not expire"
+        android:text="I am currently attending this experience"
         android:textColor="@color/black"
         android:fontFamily="@font/poppins"
         android:textSize="12sp"

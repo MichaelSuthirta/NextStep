@@ -76,12 +76,19 @@ public class AddExperienceActivity extends AppCompatActivity {
 
         endDateBtn.setText(currentMonth());
 
-        if(currentExpCheckbox.isChecked()){
-            endDateBtn.setEnabled(false);
-        }
-        else{
-            endDateBtn.setEnabled(true);
-        }
+        currentExpCheckbox.setOnCheckedChangeListener(
+                (buttonView, checked) ->{
+                    if(currentExpCheckbox.isChecked()){
+                        endDateBtn.setEnabled(false);
+                        endDateBtn.setText(currentMonth());
+
+                    }
+                    else{
+                        endDateBtn.setEnabled(true);
+                    }
+                }
+        );
+
 
         addExperience.setOnClickListener(
                 v -> postExperience()
