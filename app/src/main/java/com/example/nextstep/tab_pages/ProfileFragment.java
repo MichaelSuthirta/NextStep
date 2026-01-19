@@ -68,6 +68,7 @@ public class ProfileFragment extends Fragment implements ExpRVAdapter.onExpEditC
         db = new ExperienceDAO(SQLiteConnector.getInstance(this.getContext()));
         profileDAO = new UserProfileDAO(SQLiteConnector.getInstance(this.getContext()));
 
+
         rvExperiences = view.findViewById(R.id.rvExperience);
 
         ArrayList<Experience> expList = db.getUserExps(User.getActiveUser().getId());
@@ -101,6 +102,7 @@ public class ProfileFragment extends Fragment implements ExpRVAdapter.onExpEditC
         expEdit.setOnClickListener(
                 v -> {
                     Toast.makeText(this.getContext(), "Edit Experience clicked", Toast.LENGTH_LONG).show();
+                    adapter.toggleEdit();
                 }
         );
 
@@ -196,7 +198,6 @@ public class ProfileFragment extends Fragment implements ExpRVAdapter.onExpEditC
         adapter = new ExpRVAdapter(expList, this);
         rvExperiences.setAdapter(adapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
     }
 
     @Override

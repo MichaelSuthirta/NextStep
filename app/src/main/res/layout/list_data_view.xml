@@ -32,6 +32,7 @@
         android:src="@drawable/pencil_icon"
         android:layout_toEndOf="@id/titleView"
         android:layout_marginStart="20dp"
+        android:visibility="gone"
         />
 
     <TextView

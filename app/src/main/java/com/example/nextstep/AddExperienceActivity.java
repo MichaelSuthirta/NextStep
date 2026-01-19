@@ -108,8 +108,9 @@ public class AddExperienceActivity extends AppCompatActivity {
 
         if (result > 0){
             Toast.makeText(this, "Experience added.", Toast.LENGTH_LONG).show();
-            Intent returnToProfile = new Intent(this, ProfilePage.class);
-            startActivity(returnToProfile);
+//            Intent returnToProfile = new Intent(this, ProfilePage.class);
+//            startActivity(returnToProfile);
+            super.finish();
         }
     }
 
