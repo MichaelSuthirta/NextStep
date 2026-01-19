@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "801909103026",
+    "project_id": "nextsteo-ebf17",
+    "storage_bucket": "nextsteo-ebf17.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801909103026:android:7b47e26d08e55d0bd06cab",
+        "android_client_info": {
+          "package_name": "com.example.nextstep"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXBox-IJKTdMhxyjCUfIVg3tjQjcWNIIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
