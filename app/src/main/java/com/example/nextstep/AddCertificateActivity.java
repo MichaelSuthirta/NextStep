@@ -3,6 +3,7 @@ package com.example.nextstep;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,7 +28,7 @@ import java.util.Hashtable;
 public class AddCertificateActivity extends AppCompatActivity {
 
     private final Dictionary<Integer, String> monthDictionary = new Hashtable<>(12);
-
+    private Calendar calendar = Calendar.getInstance();
     private EditText publisherEt;
     private EditText titleEt;
     private Button startDateBtn;
@@ -78,12 +79,18 @@ public class AddCertificateActivity extends AppCompatActivity {
             endDateBtn.setEnabled(!isChecked);
             if (isChecked) {
                 endDateBtn.setText("No Expiration");
+                endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
             } else {
                 endDateBtn.setText(currentMonth());
+                endDateBtn.setTextColor(getResources().getColor(R.color.black));
             }
         });
 
-        backBtn.setOnClickListener(v -> finish());
+        backBtn.setOnClickListener(v -> {
+            super.finish();
+            Log.v("AddCertificate Page", "Finished");
+            }
+        );
         addBtn.setOnClickListener(v -> postCertificate());
     }
 
@@ -115,7 +122,7 @@ public class AddCertificateActivity extends AppCompatActivity {
     }
 
     private String currentMonth() {
-        Calendar calendar = Calendar.getInstance();
+
         return createDate(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
     }
 
@@ -125,7 +132,6 @@ public class AddCertificateActivity extends AppCompatActivity {
             btn.setText(date);
         };
 
-        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);

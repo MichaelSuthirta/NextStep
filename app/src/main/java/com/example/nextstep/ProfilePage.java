@@ -152,7 +152,7 @@ public class ProfilePage extends AppCompatActivity {
 
         String role = userProfileDAO.getProfile(activeUser.getId()).getRole();
         if (role == null || role.trim().isEmpty()) {
-            tvRole.setText("Software Engineer | App Developer");
+            tvRole.setText("Insert your roles here, e.g. Application Developer | Data Scientist");
         } else {
             tvRole.setText(role);
         }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +35,10 @@ public class AddExperienceActivity extends AppCompatActivity {
     private TextView position, companyName, location;
     private DatePickerDialog startDatePicker, endDatePicker;
     private Button startDateBtn, endDateBtn, addExperience;
+    private ImageView backBtn;
 
     private ExperienceDAO db;
+    Calendar calendar = Calendar.getInstance();
 
     private CheckBox currentExpCheckbox;
 
@@ -57,6 +60,7 @@ public class AddExperienceActivity extends AppCompatActivity {
         startDateBtn = findViewById(R.id.startDatePicker);
         endDateBtn = findViewById(R.id.endDatePicker);
         currentExpCheckbox = findViewById(R.id.currentExpCheckbox);
+        backBtn = findViewById(R.id.btnBack);
 
         addExperience = findViewById(R.id.addExperienceButton);
         db = new ExperienceDAO(SQLiteConnector.getInstance(this));
@@ -80,11 +84,13 @@ public class AddExperienceActivity extends AppCompatActivity {
                 (buttonView, checked) ->{
                     if(currentExpCheckbox.isChecked()){
                         endDateBtn.setEnabled(false);
-                        endDateBtn.setText(currentMonth());
-
+                        endDateBtn.setText("Present");
+                        endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
                     }
                     else{
                         endDateBtn.setEnabled(true);
+                        endDateBtn.setText(currentMonth());
+                        endDateBtn.setTextColor(getResources().getColor(R.color.black));
                     }
                 }
         );
@@ -92,6 +98,12 @@ public class AddExperienceActivity extends AppCompatActivity {
 
         addExperience.setOnClickListener(
                 v -> postExperience()
+        );
+
+        backBtn.setOnClickListener(
+                v -> {
+                    super.finish();
+                }
         );
     }
 
@@ -108,14 +120,11 @@ public class AddExperienceActivity extends AppCompatActivity {
 
         if (result > 0){
             Toast.makeText(this, "Experience added.", Toast.LENGTH_LONG).show();
-//            Intent returnToProfile = new Intent(this, ProfilePage.class);
-//            startActivity(returnToProfile);
             super.finish();
         }
     }
 
     private String currentMonth(){
-        Calendar calendar = Calendar.getInstance();
         return createDate(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
     }
 
@@ -123,13 +132,17 @@ public class AddExperienceActivity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                String date = createDate(month, year);
+                String date;
+                if(year > calendar.get(Calendar.YEAR) || (year == calendar.get(Calendar.YEAR) && month > calendar.get(Calendar.MONTH))){
+                    date = currentMonth();
+                }
+                else {
+                    date = createDate(month, year);
+                }
                 btn.setText(date);
             }
         };
 
-        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);

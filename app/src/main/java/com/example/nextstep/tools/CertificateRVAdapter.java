@@ -55,7 +55,12 @@ public class CertificateRVAdapter extends RecyclerView.Adapter<CertificateRVAdap
 
         holder.certTitle.setText(certificate.getTitle());
         holder.certPublisher.setText(certificate.getPublisher());
-        holder.certDate.setText(String.format("Issued %s - Expired %s", certificate.getPublishDate(), certificate.getExpireDate()));
+        if(certificate.getExpireDate().equalsIgnoreCase("No expiration")){
+            holder.certDate.setText(String.format("Issued %s - %s", certificate.getPublishDate(), certificate.getExpireDate()));
+        }
+        else {
+            holder.certDate.setText(String.format("Issued %s - Expired %s", certificate.getPublishDate(), certificate.getExpireDate()));
+        }
 
         holder.editIcon.setVisibility(editMode ? View.VISIBLE : View.GONE);
 

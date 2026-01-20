@@ -81,12 +81,14 @@ public class AddSectionActivity extends AppCompatActivity {
             endDateBtn.setEnabled(!isChecked);
             if (isChecked) {
                 endDateBtn.setText("Present");
+                endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
             } else {
                 endDateBtn.setText(currentMonth());
+                endDateBtn.setTextColor(getResources().getColor(R.color.black));
             }
         });
 
-        backBtn.setOnClickListener(v -> finish());
+        backBtn.setOnClickListener(v -> super.finish());
         saveBtn.setOnClickListener(v -> saveSection());
     }
 

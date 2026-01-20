@@ -57,7 +57,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Company Name"
+        android:text="Organization Name"
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="12sp"

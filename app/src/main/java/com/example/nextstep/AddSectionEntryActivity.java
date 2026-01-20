@@ -30,7 +30,7 @@ public class AddSectionEntryActivity extends AppCompatActivity {
     public static final String EXTRA_SECTION_NAME = "extra_section_name";
 
     private final Dictionary<Integer, String> monthDictionary = new Hashtable<>(12);
-
+    private Calendar calendar = Calendar.getInstance();
     private ImageView backBtn;
     private TextView sectionNameTv;
     private EditText companyEt;
@@ -89,8 +89,10 @@ public class AddSectionEntryActivity extends AppCompatActivity {
             endDateBtn.setEnabled(!isChecked);
             if (isChecked) {
                 endDateBtn.setText("Present");
+                endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
             } else {
                 endDateBtn.setText(currentMonth());
+                endDateBtn.setTextColor(getResources().getColor(R.color.black));
             }
         });
 
@@ -124,7 +126,6 @@ public class AddSectionEntryActivity extends AppCompatActivity {
     }
 
     private String currentMonth() {
-        Calendar calendar = Calendar.getInstance();
         return createDate(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
     }
 
@@ -133,7 +134,6 @@ public class AddSectionEntryActivity extends AppCompatActivity {
             String date = createDate(month, year);
             btn.setText(date);
         };
-        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);

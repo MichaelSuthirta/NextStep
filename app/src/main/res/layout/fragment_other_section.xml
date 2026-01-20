@@ -7,29 +7,15 @@
     android:padding="10dp"
     tools:context=".tab_pages.OtherSectionFragment">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/btnAddSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
-
-        <TextView
-            android:id="@+id/btnAddSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Section"
-            android:textColor="@color/link"
-            android:fontFamily="@font/poppins"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  +"
-            android:textColor="@color/link"
-            android:fontFamily="@font/poppins"
-            android:textSize="14sp" />
-    </LinearLayout>
+        android:text="Add Section  +"
+        android:textColor="@color/link"
+        android:fontFamily="@font/poppins"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp" />
 
     <TextView
         android:id="@+id/noSection"
