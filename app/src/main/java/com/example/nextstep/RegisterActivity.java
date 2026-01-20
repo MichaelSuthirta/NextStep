@@ -23,10 +23,20 @@ import androidx.credentials.exceptions.NoCredentialException;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import com.example.nextstep.data_access.SQLiteConnector;
@@ -34,19 +44,27 @@ import com.example.nextstep.data_access.UserDAO;
 import com.example.nextstep.data_access.UserProfileDAO;
 import com.example.nextstep.models.User;
 
+import androidx.core.content.ContextCompat;
+
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
 public class RegisterActivity extends AppCompatActivity {
 
-    private Button btnRegister;
-    private EditText etUsername, etEmail, etPassword;
-    private ImageButton btnGoogle, btnFacebook, btnLinkedin;
-    private TextView tvLoginHere;
+    Button btnRegister;
+    EditText etUsername, etEmail, etPassword;
+    ImageButton btnGoogle, btnFacebook, btnLinkedin;
+    TextView tvLoginHere;
 
 
-    private UserDAO userDAO;
-    private UserProfileDAO userProfileDAO;
+    UserDAO userDAO;
+    UserProfileDAO userProfileDAO;
 
-    private CredentialManager credentialManager;
-    private FirebaseAuth firebaseAuth;
+    CredentialManager credentialManager;
+    FirebaseAuth firebaseAuth;
+
+    CallbackManager fbCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         btnGoogle.setOnClickListener(v -> startGoogleSignIn(false));
-        btnFacebook.setOnClickListener(v -> Toast.makeText(this, "Facebook Login", Toast.LENGTH_SHORT).show());
+        btnFacebook.setOnClickListener(v -> startFacebookLogin());
         btnLinkedin.setOnClickListener(v -> Toast.makeText(this, "LinkedIn Login", Toast.LENGTH_SHORT).show());
 
         btnRegister.setOnClickListener(v -> {
@@ -143,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
                 this,
                 request,
                 null,
-                getMainExecutor(),
+                ContextCompat.getMainExecutor(this),
                 new CredentialManagerCallback(filterByAuthorizedAccounts)
         );
     }
@@ -206,6 +224,107 @@ public class RegisterActivity extends AppCompatActivity {
 
             Intent moveToProfile = new Intent(this, ProfilePage.class);
             moveToProfile.putExtra("username", user != null ? user.getUsername() : (name != null ? name : email));
+            startActivity(moveToProfile);
+            finish();
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (fbCallbackManager != null) {
+            fbCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private static String firstNonEmpty(String... values) {
+        if (values == null) return null;
+        for (String v : values) {
+            if (v != null && !v.trim().isEmpty()) return v;
+        }
+        return null;
+    }
+
+    private void initFacebookLogin() {
+        fbCallbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(fbCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AccessToken token = loginResult.getAccessToken();
+                fetchFacebookProfile(token, (name, email) -> firebaseAuthWithFacebook(token, name, email));
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(RegisterActivity.this, "Facebook login dibatalkan", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(RegisterActivity.this, "Facebook login error: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void startFacebookLogin() {
+        // Minta email + public profile
+        LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                Arrays.asList("email", "public_profile")
+        );
+    }
+
+    private interface FacebookProfileCallback {
+        void onResult(String name, String email);
+    }
+
+    private void fetchFacebookProfile(AccessToken token, RegisterActivity.FacebookProfileCallback cb) {
+        GraphRequest request = GraphRequest.newMeRequest(token, (JSONObject object, GraphResponse response) -> {
+            String email = null;
+            String name = null;
+            try {
+                if (object != null) {
+                    email = object.optString("email", null);
+                    name = object.optString("name", null);
+                }
+            } catch (Exception ignored) {}
+            cb.onResult(name, email);
+        });
+
+        Bundle params = new Bundle();
+        params.putString("fields", "id,name,email");
+        request.setParameters(params);
+        request.executeAsync();
+    }
+
+    private void firebaseAuthWithFacebook(AccessToken token, String graphName, String graphEmail) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            if (!task.isSuccessful()) {
+                String msg = task.getException() != null ? task.getException().getMessage() : "Firebase Auth gagal";
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            FirebaseUser fu = firebaseAuth.getCurrentUser();
+            String email = firstNonEmpty(graphEmail, fu != null ? fu.getEmail() : null);
+            String name = firstNonEmpty(graphName, fu != null ? fu.getDisplayName() : null);
+
+            // Kalau email tidak tersedia dari FB (sering terjadi), buat email sintetis yang stabil
+            if (email == null || email.trim().isEmpty()) {
+                String uid = fu != null ? fu.getUid() : "unknown";
+                email = "fb_" + uid + "@facebook.local";
+            }
+
+            User user = userDAO.upsertByEmail(name, "", email, "");
+            if (user != null) {
+                User.setActiveUser(user);
+                userProfileDAO.ensureProfile(user.getId());
+            }
+
+            Intent moveToProfile = new Intent(this, ProfilePage.class);
+            moveToProfile.putExtra("username", user != null ? user.getUsername() : email);
             startActivity(moveToProfile);
             finish();
         });
