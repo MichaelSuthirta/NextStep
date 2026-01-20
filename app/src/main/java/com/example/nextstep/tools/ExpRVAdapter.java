@@ -19,9 +19,16 @@ public class ExpRVAdapter extends RecyclerView.Adapter<ExpRVAdapter.ItemViewHold
     private static ArrayList<Experience> expList;
     private static  ExpRVAdapter.onExpEditClickListener listener;
 
+    private boolean canEdit = false;
+
     public ExpRVAdapter(ArrayList<Experience> expList, onExpEditClickListener listener) {
         this.expList = expList;
         this.listener = listener;
+    }
+
+    public void toggleEdit(){
+        canEdit = !canEdit;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,11 +46,13 @@ public class ExpRVAdapter extends RecyclerView.Adapter<ExpRVAdapter.ItemViewHold
         holder.expTitle.setText(exp.getTitle());
         holder.expDuration.setText(String.format("%s - %s", exp.getStart(), exp.getFinish()));
         holder.expLocation.setText(exp.getLocation());
-//        holder.editBtn.setOnClickListener(
-//                v -> {
-//                    Intent moveToEditPage = new Intent()
-//                }
-//        );
+
+        if(canEdit){
+            holder.editBtn.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.editBtn.setVisibility(View.GONE);
+        }
     }
 
     @Override
