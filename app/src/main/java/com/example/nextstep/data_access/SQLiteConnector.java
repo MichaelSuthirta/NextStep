@@ -35,8 +35,6 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         // Additional profile sections (Competitions, Volunteers, etc.)
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
-        db.execSQL(ExtraPostDAO.CREATE_TABLE);
-        db.execSQL(CategoryDAO.CREATE_TABLE);
     }
 
     @Override
@@ -49,8 +47,6 @@ public class SQLiteConnector extends SQLiteOpenHelper {
 
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
-        db.execSQL(ExtraPostDAO.CREATE_TABLE);
-        db.execSQL(CategoryDAO.CREATE_TABLE);
     }
 
     @Override
@@ -62,8 +58,6 @@ public class SQLiteConnector extends SQLiteOpenHelper {
 
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_SECTION);
         db.execSQL(ProfileSectionDAO.CREATE_TABLE_ENTRY);
-        db.execSQL(ExtraPostDAO.CREATE_TABLE);
-        db.execSQL(CategoryDAO.CREATE_TABLE);
 
 
         if (oldVersion < 9) {
