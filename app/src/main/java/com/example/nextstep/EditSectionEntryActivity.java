@@ -97,9 +97,6 @@ public class EditSectionEntryActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(v -> save());
         deleteBtn.setOnClickListener(v -> deleteEntry());
 
-        deleteBtn = findViewById(R.id.deleteEntryBtn);
-        
-
         bind();
     }
 

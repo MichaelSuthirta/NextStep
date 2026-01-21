@@ -112,7 +112,7 @@ public class CertificateDAO {
         return rows;
     }
 
-    public int deleteCertificate(String certID){
+    public int deleteCertificate(String certID, String userId){
         SQLiteDatabase db = dbConnector.getWritableDatabase();
 
         int result = -1;
