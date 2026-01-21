@@ -147,8 +147,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void startGoogleSignIn(boolean filterByAuthorizedAccounts) {
-        // Sama seperti di Login: kalau filter=true dan user baru pertama kali,
-        // sering muncul "No credentials found".
         GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
                 .setServerClientId(getString(R.string.default_web_client_id))
                 .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)
@@ -271,7 +269,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void startFacebookLogin() {
-        // Minta email + public profile
         LoginManager.getInstance().logInWithReadPermissions(
                 this,
                 Arrays.asList("email", "public_profile")
@@ -314,7 +311,6 @@ public class RegisterActivity extends AppCompatActivity {
             String email = firstNonEmpty(graphEmail, fu != null ? fu.getEmail() : null);
             String name = firstNonEmpty(graphName, fu != null ? fu.getDisplayName() : null);
 
-            // Kalau email tidak tersedia dari FB (sering terjadi), buat email sintetis yang stabil
             if (email == null || email.trim().isEmpty()) {
                 String uid = fu != null ? fu.getUid() : "unknown";
                 email = "fb_" + uid + "@facebook.local";

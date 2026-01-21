@@ -108,11 +108,9 @@ public class ProfilePage extends AppCompatActivity {
                 }
         );
 
-        // Klik untuk pilih gambar
         profilePic.setOnClickListener(v -> pickProfileImage.launch(new String[]{"image/*"}));
         banner.setOnClickListener(v -> pickBannerImage.launch(new String[]{"image/*"}));
 
-        // Load gambar terakhir yang disimpan
         loadSavedUris();
         // ====== END IMAGE PICKER SETUP ======
 
@@ -142,8 +140,7 @@ public class ProfilePage extends AppCompatActivity {
             });
         }
 
-        //Gets the extra data put in the intent moving to this page, then finds the data in database
-        // Resolve active user
+
         User activeUser = User.getActiveUser();
         if (activeUser == null) {
             String key = (this.getIntent()).getStringExtra("username");
@@ -166,23 +163,18 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     private void doLogout() {
-        // Clear in-memory session
         User.setActiveUser(null);
 
-        // Clear local session routing
         SessionManager.clear(this);
 
-        // Clear saved profile image/banner URIs (optional but prevents carry-over across users)
         try {
             getSharedPreferences("profile_prefs", MODE_PRIVATE).edit().clear().apply();
         } catch (Exception ignored) {}
 
-        // Firebase sign out (Google/Facebook/email via Firebase)
         try {
             FirebaseAuth.getInstance().signOut();
         } catch (Exception ignored) {}
 
-        // Facebook SDK logout (if user logged-in via Facebook)
         try {
             LoginManager.getInstance().logOut();
         } catch (Exception ignored) {}
@@ -228,13 +220,13 @@ public class ProfilePage extends AppCompatActivity {
         }
     }
 
-    // biar URI bisa dipakai lagi setelah app ditutup/dibuka
+
     private void takePersistablePermission(Uri uri) {
         final int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
         try {
             getContentResolver().takePersistableUriPermission(uri, flags);
         } catch (SecurityException ignored) {
-            // beberapa device/URI bisa gak support persistable, tapi setImageURI tetap jalan saat itu juga
+
         }
     }
 
