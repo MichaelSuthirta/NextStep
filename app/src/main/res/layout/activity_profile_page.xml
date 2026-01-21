@@ -37,6 +37,28 @@
             android:layout_alignParentBottom="true"
             />
 
+        <TextView
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="12dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/btn_pill_accent_small"
+            android:text="Logout"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/poppins"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Logout"
+            />
+
 
 
         <ImageView

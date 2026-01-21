@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
@@ -20,14 +21,18 @@ import com.example.nextstep.data_access.SQLiteConnector;
 import com.example.nextstep.data_access.UserDAO;
 import com.example.nextstep.data_access.UserProfileDAO;
 import com.example.nextstep.models.User;
+import com.example.nextstep.tools.SessionManager;
 import com.example.nextstep.tools.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.facebook.login.LoginManager;
 
 public class ProfilePage extends AppCompatActivity {
     //Main profile components
     TextView tvName, tvRole;
     ImageView profilePic, banner;
+    TextView btnLogout;
 
     //Tabs
     TabLayout tabLayout;
@@ -56,6 +61,7 @@ public class ProfilePage extends AppCompatActivity {
         profilePic = findViewById(R.id.profilePic);
         banner = findViewById(R.id.banner);
         ImageView editBtn = findViewById(R.id.profileEditBtn);
+        btnLogout = findViewById(R.id.btnLogout);
 
         userDAO = new UserDAO(SQLiteConnector.getInstance(this));
         userProfileDAO = new UserProfileDAO(SQLiteConnector.getInstance(this));
@@ -102,10 +108,11 @@ public class ProfilePage extends AppCompatActivity {
                 }
         );
 
-
+        // Klik untuk pilih gambar
         profilePic.setOnClickListener(v -> pickProfileImage.launch(new String[]{"image/*"}));
         banner.setOnClickListener(v -> pickBannerImage.launch(new String[]{"image/*"}));
 
+        // Load gambar terakhir yang disimpan
         loadSavedUris();
         // ====== END IMAGE PICKER SETUP ======
 
@@ -122,6 +129,18 @@ public class ProfilePage extends AppCompatActivity {
             Intent i = new Intent(this, EditProfileActivity.class);
             editProfileLauncher.launch(i);
         });
+
+        // Logout
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                new AlertDialog.Builder(ProfilePage.this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setNegativeButton("Cancel", (d, which) -> d.dismiss())
+                        .setPositiveButton("Logout", (d, which) -> doLogout())
+                        .show();
+            });
+        }
 
         //Gets the extra data put in the intent moving to this page, then finds the data in database
         // Resolve active user
@@ -144,6 +163,34 @@ public class ProfilePage extends AppCompatActivity {
             User.setActiveUser(activeUser);
         }
         refreshHeader();
+    }
+
+    private void doLogout() {
+        // Clear in-memory session
+        User.setActiveUser(null);
+
+        // Clear local session routing
+        SessionManager.clear(this);
+
+        // Clear saved profile image/banner URIs (optional but prevents carry-over across users)
+        try {
+            getSharedPreferences("profile_prefs", MODE_PRIVATE).edit().clear().apply();
+        } catch (Exception ignored) {}
+
+        // Firebase sign out (Google/Facebook/email via Firebase)
+        try {
+            FirebaseAuth.getInstance().signOut();
+        } catch (Exception ignored) {}
+
+        // Facebook SDK logout (if user logged-in via Facebook)
+        try {
+            LoginManager.getInstance().logOut();
+        } catch (Exception ignored) {}
+
+        Intent i = new Intent(this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -181,12 +228,13 @@ public class ProfilePage extends AppCompatActivity {
         }
     }
 
-
+    // biar URI bisa dipakai lagi setelah app ditutup/dibuka
     private void takePersistablePermission(Uri uri) {
         final int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
         try {
             getContentResolver().takePersistableUriPermission(uri, flags);
         } catch (SecurityException ignored) {
+            // beberapa device/URI bisa gak support persistable, tapi setImageURI tetap jalan saat itu juga
         }
     }
 
