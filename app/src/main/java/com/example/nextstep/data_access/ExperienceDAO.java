@@ -148,4 +148,23 @@ public class ExperienceDAO {
         db.close();
         return result;
     }
+
+    public int deleteExp(String expId, String userId){
+        SQLiteDatabase db = dbConnector.getWritableDatabase();
+
+        int result = -1;
+
+        try{
+            result = db.delete(TABLE_NAME,
+                    COL_POSTID + " = ? AND " +
+                                COL_USERID + " = ?",
+                    new String[]{expId, userId}
+                    );
+        }
+        catch (Exception e){
+            result = -1;
+        }
+        db.close();
+        return result;
+    }
 }

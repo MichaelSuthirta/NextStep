@@ -2,6 +2,7 @@ package com.example.nextstep;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +32,7 @@ public class EditExperienceActivity extends AppCompatActivity {
 
     private EditText companyName, role, location;
     private Button startDateBtn, endDateBtn, editExp;
+    private TextView deleteExp;
     private CheckBox currentExpCheckbox;
     private DatePickerDialog startDatePicker, endDatePicker;
 
@@ -58,10 +61,12 @@ public class EditExperienceActivity extends AppCompatActivity {
         companyName = findViewById(R.id.companyEdit);
         location = findViewById(R.id.locationExpEdit);
 
+
         startDateBtn = findViewById(R.id.startDateExpEditPicker);
         endDateBtn = findViewById(R.id.endDateExpEditPicker);
         currentExpCheckbox = findViewById(R.id.currentExpEditCheckbox);
 
+        deleteExp = findViewById(R.id.deleteExpBtn);
         editExp = findViewById(R.id.editExperienceConfirmButton);
         db = new ExperienceDAO(SQLiteConnector.getInstance(this));
 
@@ -94,10 +99,13 @@ public class EditExperienceActivity extends AppCompatActivity {
         editExp.setOnClickListener(
                 v -> updateExperience()
         );
+
+        deleteExp.setOnClickListener(
+                v -> deleteExperience()
+        );
     }
 
     private void updateExperience() {
-        //TODO: Validate
         if(!companyName.getText().toString().equalsIgnoreCase(exp.getCompanyName())){
             exp.setCompanyName(companyName.getText().toString());
         }
@@ -118,9 +126,47 @@ public class EditExperienceActivity extends AppCompatActivity {
 
         if (result > 0){
             Toast.makeText(this, "Experience edited.", Toast.LENGTH_LONG).show();
-            Intent returnToProfile = new Intent(this, ProfilePage.class);
-            startActivity(returnToProfile);
+            returnToProfile();
         }
+    }
+
+    private void deleteExperience(){
+        final int[] result = {-1};
+        new AlertDialog.Builder(this)
+                .setTitle("Are you sure?")
+                .setMessage("Once you delete this, it will completely disappear!")
+                .setCancelable(true)
+                .setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                result[0] = db.deleteExp(exp.getPostId(), exp.getUserId());
+                                Toast.makeText(EditExperienceActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+                .setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }
+                )
+                .show();
+
+        if(result[0] > 0){
+            Toast.makeText(this, "Experience deleted successfully", Toast.LENGTH_SHORT).show();
+            returnToProfile();
+        }
+
+    }
+
+    private void returnToProfile(){
+        Intent returnToProfile = new Intent(this, ProfilePage.class);
+        startActivity(returnToProfile);
     }
 
     private String currentMonth(){

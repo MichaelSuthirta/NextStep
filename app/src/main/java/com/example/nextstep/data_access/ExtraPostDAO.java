@@ -92,4 +92,23 @@ public class ExtraPostDAO {
 
         return postList;
     }
+
+    public int deletePost(String postId, String userId){
+        SQLiteDatabase db = dbConnector.getWritableDatabase();
+
+        int result = -1;
+
+        try{
+            result = db.delete(TABLE_NAME,
+                    COL_POSTID + " = ? AND " +
+                            COL_USERID + " = ?",
+                    new String[]{postId, userId}
+            );
+        }
+        catch (Exception e){
+            result = -1;
+        }
+        db.close();
+        return result;
+    }
 }

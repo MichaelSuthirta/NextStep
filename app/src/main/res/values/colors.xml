@@ -17,4 +17,6 @@
     <color name="dot_inactive">#D9D9D9</color>
 
     <color name="checkbox_checked">#3E7FB5</color>
+
+    <color name="red">#FF1212</color>
 </resources>
