@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
             int start = full.indexOf("Login here");
             if (start >= 0) {
                 int end = start + "Login here".length();
-                ss.setSpan(new ForegroundColorSpan(getColor(R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ss.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             tvLoginHere.setText(ss);
