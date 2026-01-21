@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +37,7 @@ public class EditSectionEntryActivity extends AppCompatActivity {
     private Button endDateBtn;
     private CheckBox currentCheckbox;
     private Button saveBtn;
+    private TextView deleteBtn;
 
     private DatePickerDialog startPicker;
     private DatePickerDialog endPicker;
@@ -91,6 +93,9 @@ public class EditSectionEntryActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(v -> finish());
         saveBtn.setOnClickListener(v -> save());
+
+        deleteBtn = findViewById(R.id.deleteEntryBtn);
+        
 
         bind();
     }

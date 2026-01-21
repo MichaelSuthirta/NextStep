@@ -101,7 +101,6 @@ public class ProfileFragment extends Fragment implements ExpRVAdapter.onExpEditC
 
         expEdit.setOnClickListener(
                 v -> {
-                    Toast.makeText(this.getContext(), "Edit Experience clicked", Toast.LENGTH_LONG).show();
                     adapter.toggleEdit();
                 }
         );

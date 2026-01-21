@@ -2,11 +2,13 @@ package com.example.nextstep;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -41,6 +43,7 @@ public class EditCertificateActivity extends AppCompatActivity {
     private Button saveBtn;
     private CheckBox noExpireCheckbox;
     private ImageView backBtn;
+    private TextView deleteCertificateBtn;
 
     private DatePickerDialog startDatePicker;
     private DatePickerDialog endDatePicker;
@@ -105,6 +108,11 @@ public class EditCertificateActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(v -> finish());
         saveBtn.setOnClickListener(v -> updateCertificate());
+
+        deleteCertificateBtn = findViewById(R.id.deleteCertBtn);
+        deleteCertificateBtn.setOnClickListener(
+                v->deleteCertificate()
+        );
     }
 
     private void updateCertificate() {
@@ -129,10 +137,45 @@ public class EditCertificateActivity extends AppCompatActivity {
         int updated = db.updateCertificate(cert);
         if (updated > 0) {
             Toast.makeText(this, "Certificate updated.", Toast.LENGTH_LONG).show();
-            finish();
+            returnToProfile();
         } else {
             Toast.makeText(this, "Failed to update certificate.", Toast.LENGTH_LONG).show();
         }
+    }
+    private void deleteCertificate(){
+        final int[] result = {-1};
+
+        new AlertDialog.Builder(this)
+                .setTitle("Are you sure?")
+                .setMessage("Once you delete this, it will completely disappear!")
+                .setCancelable(true)
+                .setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                result[0] = db.deleteCertificate(getIntent().getStringExtra(EXTRA_CERT_ID));
+                                if(result[0] > 0){
+                                    Toast.makeText(EditCertificateActivity.this, "Experience deleted successfully", Toast.LENGTH_SHORT).show();
+                                    returnToProfile();
+                                }
+                            }
+                        }
+                )
+                .setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }
+                )
+                .show();
+    }
+
+    private void returnToProfile(){
+        super.finish();
     }
 
     private String currentMonth() {

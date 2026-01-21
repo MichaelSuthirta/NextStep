@@ -132,6 +132,7 @@ public class EditExperienceActivity extends AppCompatActivity {
 
     private void deleteExperience(){
         final int[] result = {-1};
+
         new AlertDialog.Builder(this)
                 .setTitle("Are you sure?")
                 .setMessage("Once you delete this, it will completely disappear!")
@@ -159,14 +160,9 @@ public class EditExperienceActivity extends AppCompatActivity {
                         }
                 )
                 .show();
-
-
-
     }
 
     private void returnToProfile(){
-//        Intent returnToProfile = new Intent(EditExperienceActivity.this, ProfilePage.class);
-//        startActivity(returnToProfile);
         super.finish();
     }
 
