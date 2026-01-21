@@ -142,7 +142,10 @@ public class EditExperienceActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 result[0] = db.deleteExp(exp.getPostId(), exp.getUserId());
-                                Toast.makeText(EditExperienceActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
+                                if(result[0] > 0){
+                                    Toast.makeText(EditExperienceActivity.this, "Experience deleted successfully", Toast.LENGTH_SHORT).show();
+                                    returnToProfile();
+                                }
                             }
                         }
                 )
@@ -157,16 +160,14 @@ public class EditExperienceActivity extends AppCompatActivity {
                 )
                 .show();
 
-        if(result[0] > 0){
-            Toast.makeText(this, "Experience deleted successfully", Toast.LENGTH_SHORT).show();
-            returnToProfile();
-        }
+
 
     }
 
     private void returnToProfile(){
-        Intent returnToProfile = new Intent(this, ProfilePage.class);
-        startActivity(returnToProfile);
+//        Intent returnToProfile = new Intent(EditExperienceActivity.this, ProfilePage.class);
+//        startActivity(returnToProfile);
+        super.finish();
     }
 
     private String currentMonth(){
