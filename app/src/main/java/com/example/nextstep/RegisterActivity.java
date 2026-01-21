@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     Button btnRegister;
     EditText etUsername, etEmail, etPassword;
-    ImageButton btnGoogle, btnFacebook, btnLinkedin;
+    ImageButton btnGoogle, btnFacebook;
     TextView tvLoginHere;
 
 
@@ -108,7 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnGoogle.setOnClickListener(v -> startGoogleSignIn(false));
         btnFacebook.setOnClickListener(v -> startFacebookLogin());
-        btnLinkedin.setOnClickListener(v -> Toast.makeText(this, "LinkedIn Login", Toast.LENGTH_SHORT).show());
 
         btnRegister.setOnClickListener(v -> {
             String u = etUsername.getText().toString().trim();
