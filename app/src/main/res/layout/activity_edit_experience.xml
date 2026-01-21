@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="45dp"
     tools:context=".EditExperienceActivity">
 
     <ImageView
@@ -194,6 +197,8 @@
         android:gravity="center"
         android:text="Delete Experience"
         android:textColor="@color/red"
+        android:fontFamily="@font/poppins"
+        android:textSize="14sp"
         android:layout_marginTop="12dp" />
 
 </LinearLayout>
