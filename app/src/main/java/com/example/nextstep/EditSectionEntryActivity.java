@@ -2,11 +2,13 @@ package com.example.nextstep;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +38,7 @@ public class EditSectionEntryActivity extends AppCompatActivity {
     private Button endDateBtn;
     private CheckBox currentCheckbox;
     private Button saveBtn;
+    private TextView deleteBtn;
 
     private DatePickerDialog startPicker;
     private DatePickerDialog endPicker;
@@ -63,6 +66,7 @@ public class EditSectionEntryActivity extends AppCompatActivity {
         endDateBtn = findViewById(R.id.endDatePicker);
         currentCheckbox = findViewById(R.id.currentCheckbox);
         saveBtn = findViewById(R.id.saveButton);
+        deleteBtn = findViewById(R.id.deleteEntryBtn);
 
         db = new ProfileSectionDAO(SQLiteConnector.getInstance(this));
         initMonthDict();
@@ -91,6 +95,7 @@ public class EditSectionEntryActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(v -> finish());
         saveBtn.setOnClickListener(v -> save());
+        deleteBtn.setOnClickListener(v -> deleteEntry());
 
         bind();
     }
@@ -126,6 +131,28 @@ public class EditSectionEntryActivity extends AppCompatActivity {
         boolean ok = db.updateEntry(entryId, company, role, start, end, isCurrent);
         Toast.makeText(this, ok ? "Saved." : "Failed to save.", Toast.LENGTH_LONG).show();
         if (ok) finish();
+    }
+
+    private void deleteEntry() {
+        if (entryId <= 0) {
+            Toast.makeText(this, "Invalid entry id.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete entry?")
+                .setMessage("Once you delete this, it will completely disappear!")
+                .setCancelable(true)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean ok = db.deleteEntry(entryId);
+                        Toast.makeText(EditSectionEntryActivity.this, ok ? "Entry deleted." : "Failed to delete entry.", Toast.LENGTH_LONG).show();
+                        if (ok) finish();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private DatePickerDialog initDatePicker(Button btn) {

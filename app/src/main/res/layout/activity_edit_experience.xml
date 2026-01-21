@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditExperienceActivity"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    >
+    tools:context=".EditExperienceActivity">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:contentDescription="Back" />
 
     <TextView
         android:layout_width="match_parent"
@@ -17,17 +23,16 @@
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="24sp"
-        />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit your experience data."
+        android:text="Lets edit your experience data!"
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:layout_marginBottom="40dp"
-        />
+        android:layout_marginBottom="28dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -35,17 +40,19 @@
         android:text="Company Name"
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
-        android:textSize="12sp"
-        />
+        android:textSize="12sp" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/companyEdit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_input"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:fontFamily="@font/poppins"
-        android:textColor="@color/black"
         android:textSize="12sp"
-        />
+        android:textColor="@color/black"
+        android:layout_marginTop="6dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -54,104 +61,139 @@
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="12sp"
-        />
+        android:layout_marginTop="12dp" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/jobRoleExpEdit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_input"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:fontFamily="@font/poppins"
-        android:textColor="@color/black"
         android:textSize="12sp"
-        />
+        android:textColor="@color/black"
+        android:layout_marginTop="6dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location (Country, etc.)"
+        android:text="Location(Country,etc.)"
         android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="12sp"
-        />
+        android:layout_marginTop="12dp" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/locationExpEdit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_input"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:fontFamily="@font/poppins"
-        android:textColor="@color/black"
         android:textSize="12sp"
-        />
+        android:textColor="@color/black"
+        android:layout_marginTop="6dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="25"
             android:layout_height="wrap_content"
-            android:text="Start Date"
-            android:id="@+id/startDateTitle"
-            />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp">
 
-        <Button
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Date"
+                android:fontFamily="@font/poppins"
+                android:textSize="12sp"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/startDateExpEditPicker"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_input"
+                app:backgroundTint="@null"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:drawablePadding="8dp"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                style="?android:spinnerStyle"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="25"
             android:layout_height="wrap_content"
-            android:id="@+id/startDateExpEditPicker"
-            android:text="Start Date"
-            android:textColor="@color/black"
-            style="?android:spinnerStyle"
-            />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="25"
-            android:layout_height="wrap_content"
-            android:text="End Date"
-            android:id="@+id/endDateTitle"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Date"
+                android:fontFamily="@font/poppins"
+                android:textSize="12sp"
+                android:textColor="@color/black" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="25"
-            android:layout_height="wrap_content"
-            android:id="@+id/endDateExpEditPicker"
-            android:text="End Date"
-            android:textColor="@color/black"
-            style="?android:spinnerStyle"
-            />
-
+            <Button
+                android:id="@+id/endDateExpEditPicker"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_input"
+                app:backgroundTint="@null"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:drawablePadding="8dp"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                style="?android:spinnerStyle"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <CheckBox
+        android:id="@+id/currentExpEditCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/currentExpEditCheckbox"
         android:buttonTint="@color/checkbox_checked"
         android:text="I am currently attending this experience"
         android:textColor="@color/black"
         android:fontFamily="@font/poppins"
         android:textSize="12sp"
         android:checked="false"
-        />
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit Experience"
         android:id="@+id/editExperienceConfirmButton"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="Edit Experience"
+        app:backgroundTint="@null"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btn_login"
+        android:layout_marginTop="16dp" />
 
     <TextView
+        android:id="@+id/deleteExpBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:id="@+id/deleteExpBtn"
         android:text="Delete Experience"
         android:textColor="@color/red"
-        />
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>

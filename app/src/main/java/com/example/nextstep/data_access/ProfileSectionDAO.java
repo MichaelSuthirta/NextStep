@@ -87,6 +87,12 @@ public class ProfileSectionDAO {
         return rows > 0;
     }
 
+    public boolean deleteEntry(int entryId) {
+        SQLiteDatabase db = connector.getWritableDatabase();
+        int rows = db.delete(TABLE_ENTRY, COL_ENTRY_ID + "=?", new String[]{String.valueOf(entryId)});
+        return rows > 0;
+    }
+
     public ArrayList<ProfileSection> getUserSections(int userId) {
         ArrayList<ProfileSection> out = new ArrayList<>();
         SQLiteDatabase db = connector.getReadableDatabase();

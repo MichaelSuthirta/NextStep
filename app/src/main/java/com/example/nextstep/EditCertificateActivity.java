@@ -2,11 +2,13 @@ package com.example.nextstep;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -41,6 +43,7 @@ public class EditCertificateActivity extends AppCompatActivity {
     private Button saveBtn;
     private CheckBox noExpireCheckbox;
     private ImageView backBtn;
+    private TextView deleteBtn;
 
     private DatePickerDialog startDatePicker;
     private DatePickerDialog endDatePicker;
@@ -66,6 +69,7 @@ public class EditCertificateActivity extends AppCompatActivity {
         endDateBtn = findViewById(R.id.endDatePicker);
         noExpireCheckbox = findViewById(R.id.noExpireCheckbox);
         saveBtn = findViewById(R.id.saveCertButton);
+        deleteBtn = findViewById(R.id.deleteCertBtn);
 
         db = new CertificateDAO(SQLiteConnector.getInstance(this));
 
@@ -88,6 +92,11 @@ public class EditCertificateActivity extends AppCompatActivity {
         boolean noExpire = "No Expiration".equalsIgnoreCase(endDateBtn.getText().toString());
         noExpireCheckbox.setChecked(noExpire);
         endDateBtn.setEnabled(!noExpire);
+        if (noExpire) {
+            endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
+        } else {
+            endDateBtn.setTextColor(getResources().getColor(R.color.black));
+        }
 
         startDateBtn.setOnClickListener(v -> startDatePicker.show());
         endDateBtn.setOnClickListener(v -> {
@@ -98,13 +107,42 @@ public class EditCertificateActivity extends AppCompatActivity {
             endDateBtn.setEnabled(!isChecked);
             if (isChecked) {
                 endDateBtn.setText("No Expiration");
+                endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
             } else {
                 endDateBtn.setText(currentMonth());
+                endDateBtn.setTextColor(getResources().getColor(R.color.black));
             }
         });
 
         backBtn.setOnClickListener(v -> finish());
         saveBtn.setOnClickListener(v -> updateCertificate());
+        deleteBtn.setOnClickListener(v -> deleteCertificate());
+    }
+
+    private void deleteCertificate() {
+        if (certId == null || certId.trim().isEmpty()) {
+            Toast.makeText(this, "Invalid certificate id.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete certificate?")
+                .setMessage("Once you delete this, it will completely disappear!")
+                .setCancelable(true)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int rows = db.deleteCertificate(certId, User.getActiveUser().getId());
+                        if (rows > 0) {
+                            Toast.makeText(EditCertificateActivity.this, "Certificate deleted.", Toast.LENGTH_LONG).show();
+                            finish();
+                        } else {
+                            Toast.makeText(EditCertificateActivity.this, "Failed to delete certificate.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void updateCertificate() {

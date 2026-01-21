@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class EditExperienceActivity extends AppCompatActivity {
     private EditText companyName, role, location;
     private Button startDateBtn, endDateBtn, editExp;
     private TextView deleteExp;
+    private ImageView backBtn;
     private CheckBox currentExpCheckbox;
     private DatePickerDialog startDatePicker, endDatePicker;
 
@@ -57,6 +59,7 @@ public class EditExperienceActivity extends AppCompatActivity {
 
         Log.v("DebugOnArrival", exp.getPostId() + ", " + exp.getTitle());
 
+        backBtn = findViewById(R.id.btnBack);
         role = findViewById(R.id.jobRoleExpEdit);
         companyName = findViewById(R.id.companyEdit);
         location = findViewById(R.id.locationExpEdit);
@@ -80,21 +83,34 @@ public class EditExperienceActivity extends AppCompatActivity {
         startDateBtn.setText(exp.getStart());
         endDateBtn.setText(exp.getFinish());
 
-        startDateBtn.setOnClickListener(
-                v -> chooseStartDate()
-        );
+        startDateBtn.setOnClickListener(v -> chooseStartDate());
 
-        endDateBtn.setOnClickListener(
-                v -> chooseEndDate()
-        );
+        endDateBtn.setOnClickListener(v -> {
+            if (endDateBtn.isEnabled()) chooseEndDate();
+        });
 
-
-        if(currentExpCheckbox.isChecked()){
-            endDateBtn.setEnabled(false);
+        // Prefill + checkbox behavior (match Add Experience)
+        boolean isCurrent = exp.getFinish() != null && exp.getFinish().equalsIgnoreCase("Present");
+        currentExpCheckbox.setChecked(isCurrent);
+        endDateBtn.setEnabled(!isCurrent);
+        if (isCurrent) {
+            endDateBtn.setText("Present");
+            endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
+        } else {
+            endDateBtn.setTextColor(getResources().getColor(R.color.black));
         }
-        else{
-            endDateBtn.setEnabled(true);
-        }
+
+        currentExpCheckbox.setOnCheckedChangeListener((buttonView, checked) -> {
+            if (checked) {
+                endDateBtn.setEnabled(false);
+                endDateBtn.setText("Present");
+                endDateBtn.setTextColor(getResources().getColor(R.color.text_secondary));
+            } else {
+                endDateBtn.setEnabled(true);
+                endDateBtn.setText(currentMonth());
+                endDateBtn.setTextColor(getResources().getColor(R.color.black));
+            }
+        });
 
         editExp.setOnClickListener(
                 v -> updateExperience()
@@ -103,6 +119,8 @@ public class EditExperienceActivity extends AppCompatActivity {
         deleteExp.setOnClickListener(
                 v -> deleteExperience()
         );
+
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void updateExperience() {
@@ -115,8 +133,9 @@ public class EditExperienceActivity extends AppCompatActivity {
         if(!startDateBtn.getText().toString().equalsIgnoreCase(exp.getStart())){
             exp.setStart(startDateBtn.getText().toString());
         }
-        if(!endDateBtn.getText().toString().equalsIgnoreCase(exp.getFinish())){
-            exp.setFinish(endDateBtn.getText().toString());
+        String finishText = currentExpCheckbox.isChecked() ? "Present" : endDateBtn.getText().toString();
+        if(!finishText.equalsIgnoreCase(exp.getFinish())){
+            exp.setFinish(finishText);
         }
         if(!location.getText().toString().equalsIgnoreCase(exp.getLocation())){
             exp.setLocation(location.getText().toString());
@@ -131,37 +150,21 @@ public class EditExperienceActivity extends AppCompatActivity {
     }
 
     private void deleteExperience(){
-        final int[] result = {-1};
         new AlertDialog.Builder(this)
-                .setTitle("Are you sure?")
+                .setTitle("Delete experience?")
                 .setMessage("Once you delete this, it will completely disappear!")
                 .setCancelable(true)
-                .setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                result[0] = db.deleteExp(exp.getPostId(), exp.getUserId());
-                                Toast.makeText(EditExperienceActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                )
-                .setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }
-                )
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    int result = db.deleteExp(exp.getPostId(), exp.getUserId());
+                    if(result > 0){
+                        Toast.makeText(this, "Experience deleted.", Toast.LENGTH_SHORT).show();
+                        returnToProfile();
+                    } else {
+                        Toast.makeText(this, "Failed to delete experience.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
                 .show();
-
-        if(result[0] > 0){
-            Toast.makeText(this, "Experience deleted successfully", Toast.LENGTH_SHORT).show();
-            returnToProfile();
-        }
-
     }
 
     private void returnToProfile(){
@@ -175,25 +178,27 @@ public class EditExperienceActivity extends AppCompatActivity {
     }
 
     private DatePickerDialog initDatePicker(Button btn){
-        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
 
-                String date = createDate(month, year);
-                btn.setText(date);
+        DatePickerDialog.OnDateSetListener listener = (view, year, month, dayOfMonth) -> {
+            // Disallow future months (match Add Experience behavior)
+            String date;
+            if(year > calendar.get(Calendar.YEAR) || (year == calendar.get(Calendar.YEAR) && month > calendar.get(Calendar.MONTH))){
+                date = currentMonth();
             }
+            else {
+                date = createDate(month, year);
+            }
+            btn.setText(date);
         };
 
-        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         int style = AlertDialog.BUTTON_POSITIVE;
 
-        return new DatePickerDialog(
-                this, style, listener, year, month, day
-        );
+        return new DatePickerDialog(this, style, listener, year, month, day);
     }
 
     private String createDate(int month, int year){

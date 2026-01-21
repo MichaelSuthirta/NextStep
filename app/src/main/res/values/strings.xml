@@ -3,8 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- Facebook Login (Firebase Auth) -->
-    <string name="facebook_app_id">891002507198107</string>
-    <string name="facebook_client_token">067b39fea886d7d1439d5ef9aed16b74</string>
-    <string name="fb_login_protocol_scheme">fb891002507198107</string>
+    <string name="facebook_app_id">1627833074902494</string>
+    <string name="facebook_client_token">2f2da19e1c7075f49623bcee7e0298f3</string>
+    <string name="fb_login_protocol_scheme">fb1627833074902494</string>
 
 </resources>

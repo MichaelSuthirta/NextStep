@@ -31,6 +31,7 @@ import com.example.nextstep.data_access.SQLiteConnector;
 import com.example.nextstep.data_access.UserDAO;
 import com.example.nextstep.data_access.UserProfileDAO;
 import com.example.nextstep.models.User;
+import com.example.nextstep.tools.SessionManager;
 
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     CredentialManager credentialManager;
     FirebaseAuth firebaseAuth;
 
-     CallbackManager fbCallbackManager;
+    CallbackManager fbCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
 
         btnGoogle = findViewById(R.id.btnGoogle);
         btnFacebook = findViewById(R.id.btnFacebook);
-        btnLinkedin = findViewById(R.id.btnLinkedin);
         tvRegister = findViewById(R.id.tvRegister);
 
         userDAO = new UserDAO(SQLiteConnector.getInstance(this));
@@ -146,9 +146,11 @@ public class LoginActivity extends AppCompatActivity {
 
             User.setActiveUser(user);
             userProfileDAO.ensureProfile(user.getId());
+            SessionManager.save(this, user);
 
             Intent moveToProfile = new Intent(this, ProfilePage.class);
             moveToProfile.putExtra("username", user.getUsername());
+            moveToProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(moveToProfile);
         });
 
@@ -242,10 +244,12 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 User.setActiveUser(user);
                 userProfileDAO.ensureProfile(user.getId());
+                SessionManager.save(this, user);
             }
 
             Intent moveToProfile = new Intent(this, ProfilePage.class);
             moveToProfile.putExtra("username", user != null ? user.getUsername() : email);
+            moveToProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(moveToProfile);
             finish();
         });
@@ -339,10 +343,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {
                     User.setActiveUser(user);
                     userProfileDAO.ensureProfile(user.getId());
+                    SessionManager.save(this, user);
                 }
 
                 Intent moveToProfile = new Intent(this, ProfilePage.class);
                 moveToProfile.putExtra("username", user != null ? user.getUsername() : email);
+                moveToProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(moveToProfile);
                 finish();
             } else {

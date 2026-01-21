@@ -129,6 +129,14 @@ public class ProfilePage extends AppCompatActivity {
         User activeUser = User.getActiveUser();
         if (activeUser == null) {
             String key = (this.getIntent()).getStringExtra("username");
+            if (key == null || key.trim().isEmpty()) {
+                // No active session passed. Send back to Login.
+                Intent i = new Intent(this, LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+                return;
+            }
             activeUser = userDAO.getUserByUsername(key);
             if (activeUser == null) {
                 // Some flows pass email (Google / Firebase) as the key.
