@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     Button btnRegister;
     EditText etUsername, etEmail, etPassword;
-    ImageButton btnGoogle, btnFacebook, btnLinkedin;
+    ImageButton btnGoogle, btnFacebook;
     TextView tvLoginHere;
 
 
@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
             int start = full.indexOf("Login here");
             if (start >= 0) {
                 int end = start + "Login here".length();
-                ss.setSpan(new ForegroundColorSpan(getColor(R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ss.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             tvLoginHere.setText(ss);
@@ -108,7 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnGoogle.setOnClickListener(v -> startGoogleSignIn(false));
         btnFacebook.setOnClickListener(v -> startFacebookLogin());
-        btnLinkedin.setOnClickListener(v -> Toast.makeText(this, "LinkedIn Login", Toast.LENGTH_SHORT).show());
 
         btnRegister.setOnClickListener(v -> {
             String u = etUsername.getText().toString().trim();

@@ -9,12 +9,7 @@ import com.example.nextstep.models.UserProfile;
 
 import java.util.ArrayList;
 
-/**
- * Single source of truth for Profile data:
- * - role (header)
- * - about me (description)
- * - skills (stored as CSV)
- */
+
 public class UserProfileDAO {
     public static final String TABLE_NAME = "user_profiles";
 
@@ -35,7 +30,6 @@ public class UserProfileDAO {
         this.dbConnector = dbConnector;
     }
 
-    /** Ensure a profile row exists for a user. */
     public void ensureProfile(String userId) {
         SQLiteDatabase db = dbConnector.getWritableDatabase();
         Cursor c = null;

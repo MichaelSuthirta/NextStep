@@ -102,11 +102,10 @@ public class ProfilePage extends AppCompatActivity {
                 }
         );
 
-        // Klik untuk pilih gambar
+
         profilePic.setOnClickListener(v -> pickProfileImage.launch(new String[]{"image/*"}));
         banner.setOnClickListener(v -> pickBannerImage.launch(new String[]{"image/*"}));
 
-        // Load gambar terakhir yang disimpan
         loadSavedUris();
         // ====== END IMAGE PICKER SETUP ======
 
@@ -182,13 +181,12 @@ public class ProfilePage extends AppCompatActivity {
         }
     }
 
-    // biar URI bisa dipakai lagi setelah app ditutup/dibuka
+
     private void takePersistablePermission(Uri uri) {
         final int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
         try {
             getContentResolver().takePersistableUriPermission(uri, flags);
         } catch (SecurityException ignored) {
-            // beberapa device/URI bisa gak support persistable, tapi setImageURI tetap jalan saat itu juga
         }
     }
 

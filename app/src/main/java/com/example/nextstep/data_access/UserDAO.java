@@ -45,7 +45,6 @@ public class UserDAO {
         return resultCode;
     }
 
-    /** Find user row by email. Returns null if not found. */
     @SuppressLint("Range")
     public User getUserByEmail(String email){
         if (email == null) return null;
@@ -75,10 +74,7 @@ public class UserDAO {
         return null;
     }
 
-    /**
-     * Insert a user only if their email doesn't exist yet.
-     * Returns the existing or newly created user.
-     */
+
     public User upsertByEmail(String username, String phone, String email, String password) {
         User existing = getUserByEmail(email);
         if (existing != null) {
@@ -109,7 +105,6 @@ public class UserDAO {
         return created;
     }
 
-    /** Update user's display name (username) by id. */
     public boolean updateUsername(String userId, String newUsername) {
         SQLiteDatabase db = dbConnector.getWritableDatabase();
         try {

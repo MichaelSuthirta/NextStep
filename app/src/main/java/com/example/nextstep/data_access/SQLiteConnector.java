@@ -55,7 +55,6 @@ public class SQLiteConnector extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Pastikan semua table ada
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ExperienceDAO.CREATE_TABLE);
         db.execSQL(CertificateDAO.CREATE_TABLE);
@@ -66,25 +65,21 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         db.execSQL(ExtraPostDAO.CREATE_TABLE);
         db.execSQL(CategoryDAO.CREATE_TABLE);
 
-        // --- MIGRASI experiences schema lama (title) -> schema baru (company, role) ---
+
         if (oldVersion < 9) {
-            // kalau belum ada kolom company, tambahkan
             if (!hasColumn(db, ExperienceDAO.TABLE_NAME, "company")) {
                 db.execSQL("ALTER TABLE " + ExperienceDAO.TABLE_NAME + " ADD COLUMN company TEXT");
-                // kalau ada title, pindahkan isi title -> company
                 if (hasColumn(db, ExperienceDAO.TABLE_NAME, "title")) {
                     db.execSQL("UPDATE " + ExperienceDAO.TABLE_NAME + " SET company = title WHERE company IS NULL");
                 }
             }
 
-            // kalau belum ada kolom role, tambahkan
             if (!hasColumn(db, ExperienceDAO.TABLE_NAME, "role")) {
                 db.execSQL("ALTER TABLE " + ExperienceDAO.TABLE_NAME + " ADD COLUMN role TEXT");
             }
         }
     }
 
-    // helper: cek kolom ada/tidak
     private boolean hasColumn(SQLiteDatabase db, String table, String col) {
         Cursor c = db.rawQuery("PRAGMA table_info(" + table + ")", null);
         try {

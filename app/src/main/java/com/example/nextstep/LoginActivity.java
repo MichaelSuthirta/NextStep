@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
-    ImageButton btnGoogle, btnFacebook, btnLinkedin;
+    ImageButton btnGoogle, btnFacebook;
     TextView tvRegister;
 
     UserDAO userDAO;
@@ -78,20 +79,29 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // KeyHash for Facebook. Must be backward-compatible (older Android doesn't have GET_SIGNING_CERTIFICATES).
         try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    getPackageName(),
-                    PackageManager.GET_SIGNING_CERTIFICATES
-            );
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            int flags = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                    ? PackageManager.GET_SIGNING_CERTIFICATES
+                    : PackageManager.GET_SIGNATURES;
+
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), flags);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && info.signingInfo != null) {
                 for (Signature signature : info.signingInfo.getApkContentsSigners()) {
                     MessageDigest md = MessageDigest.getInstance("SHA");
                     md.update(signature.toByteArray());
                     Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.NO_WRAP));
                 }
+            } else if (info.signatures != null) {
+                for (Signature signature : info.signatures) {
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    md.update(signature.toByteArray());
+                    Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.NO_WRAP));
+                }
             }
-        } catch (Exception e) {
-            Log.e("KeyHash", "error", e);
+        } catch (Throwable t) {
+            Log.e("KeyHash", "error", t);
         }
 
 
@@ -116,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
             int start = full.indexOf("Register here");
             if (start >= 0) {
                 int end = start + "Register here".length();
-                ss.setSpan(new ForegroundColorSpan(getColor(R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.link)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ss.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             tvRegister.setText(ss);
@@ -160,8 +170,6 @@ public class LoginActivity extends AppCompatActivity {
         // Facebook
         initFacebookLogin();
         btnFacebook.setOnClickListener(v -> startFacebookLogin());
-
-        btnLinkedin.setOnClickListener(v -> Toast.makeText(this, "LinkedIn Login", Toast.LENGTH_SHORT).show());
 
         tvRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
