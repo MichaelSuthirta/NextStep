@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
-    ImageButton btnGoogle, btnFacebook, btnLinkedin;
+    ImageButton btnGoogle, btnFacebook;
     TextView tvRegister;
 
     UserDAO userDAO;
@@ -160,8 +160,6 @@ public class LoginActivity extends AppCompatActivity {
         // Facebook
         initFacebookLogin();
         btnFacebook.setOnClickListener(v -> startFacebookLogin());
-
-        btnLinkedin.setOnClickListener(v -> Toast.makeText(this, "LinkedIn Login", Toast.LENGTH_SHORT).show());
 
         tvRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
